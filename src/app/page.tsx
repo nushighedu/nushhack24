@@ -1,46 +1,27 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { GameLobby } from '@/components/game/GameLobby'
-import { GameBoard } from '@/components/game/GameBoard'
-import { GameOver } from '@/components/game/GameOver'
+import { useAuth } from '@/hooks/useAuth';
+import { LoginForm } from '@/components/auth/LoginForm';
+import { Dashboard } from '@/components/game/Dashboard';
 
 export default function Home() {
-  const [gameState, setGameState] = useState<'lobby' | 'playing' | 'over'>('lobby')
-  const [players, setPlayers] = useState<Player[]>([])
+  const { user, loading, login, logout } = useAuth();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white p-8">
+        <LoginForm onLogin={login} />
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white p-8">
-      <h1 className="text-4xl font-bold text-center mb-8">
-        Strategic Auction Simulator
-      </h1>
-      
-      {gameState === 'lobby' && (
-        <GameLobby 
-          onStart={(players) => {
-            setPlayers(players)
-            setGameState('playing')
-          }}
-        />
-      )}
-      
-      {gameState === 'playing' && (
-        <GameBoard 
-          players={players}
-          onGameOver={() => setGameState('over')}
-        />
-      )}
-      
-      {gameState === 'over' && (
-        <GameOver 
-          players={players}
-          onPlayAgain={() => {
-            setPlayers([])
-            setGameState('lobby')
-          }}
-        />
-      )}
+      <Dashboard user={user} onLogout={logout} />
     </main>
-  )
+  );
 }

@@ -4,7 +4,9 @@ import { Contract, OpenAIResponse1 } from "@/lib/types";
 const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
 
 export const getSystemPrompt = async () => {
-    return `You are the assistant for Modernisation. Your task involves analysing contracts. These contracts are created by companies and are bid upon.`
+    return `You are the assistant for the Modernisation game. Your task involves analysing contracts. These contracts are created by companies and are bid upon by the government agencies of Singapore.
+    The theme of this game is "Modernise an existing system/process, making it secure and future-ready". The contracts and your analysis should be strongly related to this theme.
+    `
 }
 
 export const getValuePrompt = async (contract: Contract) => {

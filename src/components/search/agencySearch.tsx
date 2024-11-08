@@ -434,7 +434,7 @@ export function AgencySearch() {
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" className="gap-2">
+                <Button variant="outline" className="gap-2 border-[1px] border-gray-300">
                     <Building2 className="w-4 h-4" />
                     Browse Government Agencies
                 </Button>

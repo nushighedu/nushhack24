@@ -15,6 +15,7 @@ import {
     ArrowLeft,
     ArrowRight
 } from 'lucide-react';
+import { ThemeToggle } from '../theme-toggle';
 
 interface OrgDetails {
     name: string;
@@ -116,7 +117,10 @@ export function LoginForm({
     };
 
     const renderRoleSelector = () => (
-        <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-gray-900 to-gray-800">
+        <div className="min-h-screen flex items-center justify-center p-4 dark:bg-gradient-to-b from-gray-900 to-gray-800">
+            <div className="absolute top-4 right-4">
+                <ThemeToggle />
+            </div>
             <div className="max-w-md w-full space-y-8">
                 <div className="text-center">
                     <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
@@ -127,7 +131,7 @@ export function LoginForm({
                     </p>
                 </div>
 
-                <Card className="mt-8 bg-gray-800/50 backdrop-blur-sm border-0">
+                <Card className="mt-8 dark:bg-gray-800/50 backdrop-blur-sm border-0">
                     <CardHeader>
                         <CardTitle className="text-xl">Choose your role</CardTitle>
                     </CardHeader>
@@ -186,11 +190,14 @@ export function LoginForm({
                     </CardContent>
                 </Card>
             </div>
-        </div>
+        </div >
     );
 
     const renderDetailsForm = () => (
-        <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-gray-900 to-gray-800">
+        <div className="min-h-screen flex items-center justify-center p-4 dark:bg-gradient-to-b from-gray-900 to-gray-800">
+            <div className="absolute top-4 right-4">
+                <ThemeToggle />
+            </div>
             <div className="max-w-md w-full space-y-8">
                 <Button
                     variant="ghost"
@@ -201,18 +208,18 @@ export function LoginForm({
                     Back
                 </Button>
 
-                <Card className="bg-gray-800/50 backdrop-blur-sm border-0">
+                <Card className="dark:bg-gray-800/50 backdrop-blur-sm border-0">
                     <CardHeader>
                         <CardTitle>
                             {userType === 'government' ? (
                                 <div className="flex items-center">
                                     <Building2 className="w-5 h-5 mr-2" />
-                                    Contractor Details
+                                    Government Agency Details
                                 </div>
                             ) : (
                                 <div className="flex items-center">
                                     <Briefcase className="w-5 h-5 mr-2" />
-                                    Organization Details
+                                    Business/Organization Details
                                 </div>
                             )}
                         </CardTitle>

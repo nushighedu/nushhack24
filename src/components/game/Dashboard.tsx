@@ -15,13 +15,7 @@ import { ThemeToggle } from '../theme-toggle';
 type SortOption = 'expiringSoon' | 'highestBid' | 'mostBids' | 'newest';
 type FilterOption = 'all' | 'active' | 'completed' | 'expired';
 
-export function Dashboard({
-    user,
-    onLogout
-}: {
-    user: User;
-    onLogout: () => void;
-}) {
+export function Dashboard({ user, onLogout }: { user: User; onLogout: () => void }) {
     const [contracts, setContracts] = useState<Record<string, Contract>>({});
     const [filterStatus, setFilterStatus] = useState<FilterOption>('all');
     const [showCreateContract, setShowCreateContract] = useState(false);
@@ -177,22 +171,24 @@ export function Dashboard({
 
     return (
         <div className="max-w-7xl mx-auto space-y-8 p-6">
-            <div className="flex justify-between items-center bg-gray-800/50 p-6 rounded-2xl backdrop-blur-sm">
+            <div className="flex justify-between items-center bg-inherit dark:bg-gray-800/50 p-6 rounded-2xl backdrop-blur-sm">
                 <div>
                     <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
                         Contract Nexus
                     </h1>
                     <p className="text-gray-400 mt-1">Singapore&apos;s Infrastructure Bidding Platform</p>
                 </div>
-                <ThemeToggle />
-                <Button
-                    onClick={onLogout}
-                    variant="ghost"
-                    className="hover:bg-red-500/20 hover:text-red-400 transition-colors"
-                >
-                    <LogOut className="w-4 h-4 mr-2" />
-                    Logout
-                </Button>
+                <div>
+                    <ThemeToggle />
+                    <Button
+                        onClick={onLogout}
+                        variant="ghost"
+                        className="pl-8 hover:bg-red-500/20 hover:text-red-400 transition-colors"
+                    >
+                        <LogOut className="w-4 h-4 mr-2" />
+                        Logout
+                    </Button>
+                </div>
             </div>
 
             <div className="grid lg:grid-cols-4 gap-6">
@@ -218,7 +214,7 @@ export function Dashboard({
                         </Card>
                     )}
 
-                    <Card className="bg-gray-800/50 border-0">
+                    <Card className="bg-white dark:bg-gray-800/50 border-0">
                         <CardHeader className="pb-2">
                             <CardTitle className="text-lg">Quick Stats</CardTitle>
                         </CardHeader>
@@ -274,10 +270,10 @@ export function Dashboard({
                     ) : (
                         <div className="flex flex-col md:flex-row gap-4">
                             <div className="relative flex-1">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2" />
                                 <Input
                                     placeholder="Search contracts..."
-                                    className="pl-10 bg-gray-800/50 border-0"
+                                    className="pl-10 bg-white dark:bg-gray-800/50 border-0"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
@@ -338,7 +334,7 @@ function QuickStat({
     value: string | number
 }) {
     return (
-        <div className="bg-gray-900/50 p-3 rounded-lg">
+        <div className="bg-white dark:bg-gray-900/50 p-3 rounded-lg">
             <div className="flex items-center text-gray-400 mb-1">
                 {icon}
                 <span className="text-xs ml-1">{label}</span>

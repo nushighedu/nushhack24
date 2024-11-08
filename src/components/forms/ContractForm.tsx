@@ -157,6 +157,7 @@ export function ContractForm({ user, onSubmit, onCancel }: ContractFormProps) {
           </Button>
         )}
         <Button
+          className='text-white dark:text-gray-700'
           type="submit"
           disabled={!isFormValid()}
         >

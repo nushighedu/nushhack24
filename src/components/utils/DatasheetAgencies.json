@@ -1,0 +1,374 @@
+[
+    {
+        "Agency Name": "Accounting and Corporate Regulatory Authority (ACRA)",
+        "Focus": "Regulates corporate affairs, accounting, and business compliance",
+        "Sector": "Regulation",
+        "Online System/Platform": "Corporate Registration Portal"
+    },
+    {
+        "Agency Name": "Agency for Science, Technology and Research (A*STAR)",
+        "Focus": "Research and development in science and technology",
+        "Sector": "Research",
+        "Online System/Platform": "Research Portal"
+    },
+    {
+        "Agency Name": "Board of Architects (BOA)",
+        "Focus": "Regulates architects and architectural practice",
+        "Sector": "Regulation",
+        "Online System/Platform": "Professional Registration Portal"
+    },
+    {
+        "Agency Name": "Building and Construction Authority (BCA)",
+        "Focus": "Oversees building construction standards and safety",
+        "Sector": "Regulation",
+        "Online System/Platform": "Construction Standards Portal"
+    },
+    {
+        "Agency Name": "Central Provident Fund Board (CPFB)",
+        "Focus": "Manages Singapore's national pension fund",
+        "Sector": "Social Welfare",
+        "Online System/Platform": "Social Security Portal"
+    },
+    {
+        "Agency Name": "Civil Aviation Authority of Singapore (CAAS)",
+        "Focus": "Regulates civil aviation and air traffic in Singapore",
+        "Sector": "Regulation",
+        "Online System/Platform": "Aviation Regulatory Portal"
+    },
+    {
+        "Agency Name": "Civil Service College (CSC)",
+        "Focus": "Provides training and development for civil service employees",
+        "Sector": "Education",
+        "Online System/Platform": "Training Portal"
+    },
+    {
+        "Agency Name": "Competition and Consumer Commission of Singapore (CCCS)",
+        "Focus": "Promotes fair competition and protects consumer interests",
+        "Sector": "Regulation",
+        "Online System/Platform": "Competition Regulation Portal"
+    },
+    {
+        "Agency Name": "Council for Estate Agencies (CEA)",
+        "Focus": "Regulates real estate agents and agencies",
+        "Sector": "Regulation",
+        "Online System/Platform": "Real Estate Regulation Portal"
+    },
+    {
+        "Agency Name": "Defence Science and Technology Agency (DSTA)",
+        "Focus": "Provides technological and scientific support to Singapore's defense",
+        "Sector": "Research",
+        "Online System/Platform": "Defense Technology Portal"
+    },
+    {
+        "Agency Name": "Economic Development Board (EDB)",
+        "Focus": "Promotes industrial growth and innovation in Singapore",
+        "Sector": "Economic Development",
+        "Online System/Platform": "Business Development Portal"
+    },
+    {
+        "Agency Name": "Energy Market Authority (EMA)",
+        "Focus": "Regulates the energy sector, including electricity and gas",
+        "Sector": "Regulation",
+        "Online System/Platform": "Energy Regulation Portal"
+    },
+    {
+        "Agency Name": "Enterprise Singapore (EnterpriseSG)",
+        "Focus": "Supports the growth of Singapore's enterprises",
+        "Sector": "Business Development",
+        "Online System/Platform": "Enterprise Support Portal"
+    },
+    {
+        "Agency Name": "Gambling Regulatory Authority of Singapore (GRA)",
+        "Focus": "Regulates gambling activities in Singapore",
+        "Sector": "Regulation",
+        "Online System/Platform": "Gambling Regulation Portal"
+    },
+    {
+        "Agency Name": "Government Technology Agency (GovTech)",
+        "Focus": "Drives digital transformation within the public sector",
+        "Sector": "Technology",
+        "Online System/Platform": "Government Digital Services Portal"
+    },
+    {
+        "Agency Name": "Health Promotion Board (HPB)",
+        "Focus": "Promotes public health and wellness initiatives",
+        "Sector": "Public Health",
+        "Online System/Platform": "Health Services Portal"
+    },
+    {
+        "Agency Name": "Health Sciences Authority (HSA)",
+        "Focus": "Regulates healthcare products, including drugs and medical devices",
+        "Sector": "Regulation",
+        "Online System/Platform": "Health Regulatory Portal"
+    },
+    {
+        "Agency Name": "Home Team Science and Technology Agency (HTX)",
+        "Focus": "Innovates for Singapore's civil and public safety",
+        "Sector": "Technology",
+        "Online System/Platform": "Public Safety Tech Portal"
+    },
+    {
+        "Agency Name": "Hotels Licensing Board (HLB)",
+        "Focus": "Regulates hotel operations and standards",
+        "Sector": "Regulation",
+        "Online System/Platform": "Hotel Licensing Portal"
+    },
+    {
+        "Agency Name": "Housing & Development Board (HDB)",
+        "Focus": "Develops public housing and urban planning",
+        "Sector": "Urban Development",
+        "Online System/Platform": "Housing Development Portal"
+    },
+    {
+        "Agency Name": "Info-communications Media Development Authority (IMDA)",
+        "Focus": "Regulates media, telecommunications, and IT industries",
+        "Sector": "Regulation",
+        "Online System/Platform": "Media Regulation Portal"
+    },
+    {
+        "Agency Name": "Inland Revenue Authority of Singapore (IRAS)",
+        "Focus": "Administers taxes and revenue collection",
+        "Sector": "Finance",
+        "Online System/Platform": "Tax Portal"
+    },
+    {
+        "Agency Name": "Institute of Technical Education (ITE)",
+        "Focus": "Provides vocational education and training",
+        "Sector": "Education",
+        "Online System/Platform": "Learning Management System"
+    },
+    {
+        "Agency Name": "Intellectual Property Office of Singapore (IPOS)",
+        "Focus": "Oversees intellectual property protection",
+        "Sector": "Regulation",
+        "Online System/Platform": "IP Registration Portal"
+    },
+    {
+        "Agency Name": "ISEAS-Yusof Ishak Institute (ISEAS)",
+        "Focus": "Research on social sciences and Southeast Asia",
+        "Sector": "Research",
+        "Online System/Platform": "Research Portal"
+    },
+    {
+        "Agency Name": "JTC Corporation (JTC)",
+        "Focus": "Develops industrial infrastructure and estates",
+        "Sector": "Urban Development",
+        "Online System/Platform": "Industrial Development Portal"
+    },
+    {
+        "Agency Name": "Land Surveyors Board (LSB)",
+        "Focus": "Regulates land surveying professionals",
+        "Sector": "Regulation",
+        "Online System/Platform": "Professional Licensing Portal"
+    },
+    {
+        "Agency Name": "Land Transport Authority (LTA)",
+        "Focus": "Oversees land transport and public transportation",
+        "Sector": "Regulation",
+        "Online System/Platform": "Transport Regulation Portal"
+    },
+    {
+        "Agency Name": "Majlis Ugama Islam Singapura (MUIS)",
+        "Focus": "Regulates Islamic affairs in Singapore",
+        "Sector": "Regulation",
+        "Online System/Platform": "Religious Affairs Portal"
+    },
+    {
+        "Agency Name": "Maritime and Port Authority of Singapore (MPA)",
+        "Focus": "Regulates maritime industry and ports",
+        "Sector": "Regulation",
+        "Online System/Platform": "Maritime Services Portal"
+    },
+    {
+        "Agency Name": "Monetary Authority of Singapore (MAS)",
+        "Focus": "Oversees Singapore's financial system and monetary policy",
+        "Sector": "Finance",
+        "Online System/Platform": "Financial Services Portal"
+    },
+    {
+        "Agency Name": "Nanyang Polytechnic (NYP)",
+        "Focus": "Provides polytechnic education and training",
+        "Sector": "Education",
+        "Online System/Platform": "Student Portal"
+    },
+    {
+        "Agency Name": "National Arts Council (NAC)",
+        "Focus": "Supports and promotes the arts in Singapore",
+        "Sector": "Culture",
+        "Online System/Platform": "Arts Development Portal"
+    },
+    {
+        "Agency Name": "National Council of Social Service (NCSS)",
+        "Focus": "Supports social service organizations and programs",
+        "Sector": "Social Welfare",
+        "Online System/Platform": "Social Services Portal"
+    },
+    {
+        "Agency Name": "National Environment Agency (NEA)",
+        "Focus": "Regulates environmental health and sustainability",
+        "Sector": "Environment",
+        "Online System/Platform": "Environmental Services Portal"
+    },
+    {
+        "Agency Name": "National Heritage Board (NHB)",
+        "Focus": "Manages heritage and museums",
+        "Sector": "Culture",
+        "Online System/Platform": "Heritage Services Portal"
+    },
+    {
+        "Agency Name": "National Library Board (NLB)",
+        "Focus": "Oversees libraries and information services",
+        "Sector": "Education",
+        "Online System/Platform": "Library Services Portal"
+    },
+    {
+        "Agency Name": "National Parks Board (NParks)",
+        "Focus": "Manages parks, gardens, and biodiversity",
+        "Sector": "Environment",
+        "Online System/Platform": "Parks & Gardens Portal"
+    },
+    {
+        "Agency Name": "Ngee Ann Polytechnic (NP)",
+        "Focus": "Provides polytechnic education and training",
+        "Sector": "Education",
+        "Online System/Platform": "Student Portal"
+    },
+    {
+        "Agency Name": "People's Association (PA)",
+        "Focus": "Fosters community development and engagement",
+        "Sector": "Community Development",
+        "Online System/Platform": "Community Engagement Portal"
+    },
+    {
+        "Agency Name": "Professional Engineers Board, Singapore (PEB)",
+        "Focus": "Regulates professional engineers",
+        "Sector": "Regulation",
+        "Online System/Platform": "Engineering Registration Portal"
+    },
+    {
+        "Agency Name": "PUB, Singapore's National Water Agency (PUB)",
+        "Focus": "Manages water supply, drainage, and water treatment",
+        "Sector": "Environment",
+        "Online System/Platform": "Water Services Portal"
+    },
+    {
+        "Agency Name": "Public Transport Council (PTC)",
+        "Focus": "Regulates public transport fare structures and policies",
+        "Sector": "Regulation",
+        "Online System/Platform": "Transport Fare Portal"
+    },
+    {
+        "Agency Name": "Republic Polytechnic (RP)",
+        "Focus": "Provides polytechnic education and training",
+        "Sector": "Education",
+        "Online System/Platform": "Student Portal"
+    },
+    {
+        "Agency Name": "Science Centre Board (SCB)",
+        "Focus": "Promotes scientific and technological knowledge",
+        "Sector": "Education",
+        "Online System/Platform": "Science Learning Portal"
+    },
+    {
+        "Agency Name": "Sentosa Development Corporation (SDC)",
+        "Focus": "Oversees Sentosa development and tourism",
+        "Sector": "Tourism",
+        "Online System/Platform": "Tourism Development Portal"
+    },
+    {
+        "Agency Name": "Singapore Dental Council (SDC)",
+        "Focus": "Regulates dental professionals and practices",
+        "Sector": "Regulation",
+        "Online System/Platform": "Dental Licensing Portal"
+    },
+    {
+        "Agency Name": "Singapore Examinations and Assessment Board (SEAB)",
+        "Focus": "Manages public examinations and assessments",
+        "Sector": "Education",
+        "Online System/Platform": "Examination Services Portal"
+    },
+    {
+        "Agency Name": "Singapore Food Agency (SFA)",
+        "Focus": "Ensures food safety and sustainability",
+        "Sector": "Regulation",
+        "Online System/Platform": "Food Regulation Portal"
+    },
+    {
+        "Agency Name": "Singapore Labour Foundation (SLF)",
+        "Focus": "Supports labor and worker welfare",
+        "Sector": "Labor Welfare",
+        "Online System/Platform": "Worker Welfare Portal"
+    },
+    {
+        "Agency Name": "Singapore Land Authority (SLA)",
+        "Focus": "Oversees land use, management, and policies",
+        "Sector": "Urban Development",
+        "Online System/Platform": "Land Management Portal"
+    },
+    {
+        "Agency Name": "Singapore Medical Council (SMC)",
+        "Focus": "Regulates medical professionals and practices",
+        "Sector": "Regulation",
+        "Online System/Platform": "Medical Licensing Portal"
+    },
+    {
+        "Agency Name": "Singapore Nursing Board (SNB)",
+        "Focus": "Regulates nursing professionals and practices",
+        "Sector": "Regulation",
+        "Online System/Platform": "Nursing Licensing Portal"
+    },
+    {
+        "Agency Name": "Singapore Pharmacy Council (SPC)",
+        "Focus": "Regulates pharmacy professionals and practices",
+        "Sector": "Regulation",
+        "Online System/Platform": "Pharmacy Licensing Portal"
+    },
+    {
+        "Agency Name": "Singapore Polytechnic (SP)",
+        "Focus": "Provides polytechnic education and training",
+        "Sector": "Education",
+        "Online System/Platform": "Student Portal"
+    },
+    {
+        "Agency Name": "Singapore Tourism Board (STB)",
+        "Focus": "Promotes tourism and the tourism industry",
+        "Sector": "Tourism",
+        "Online System/Platform": "Tourism Development Portal"
+    },
+    {
+        "Agency Name": "SkillsFuture Singapore (SSG)",
+        "Focus": "Promotes skills development and lifelong learning",
+        "Sector": "Education",
+        "Online System/Platform": "Skills Development Portal"
+    },
+    {
+        "Agency Name": "Sport Singapore (SportSG)",
+        "Focus": "Develops and promotes sports and recreation",
+        "Sector": "Sports",
+        "Online System/Platform": "Sports Services Portal"
+    },
+    {
+        "Agency Name": "Temasek Polytechnic (TP)",
+        "Focus": "Provides polytechnic education and training",
+        "Sector": "Education",
+        "Online System/Platform": "Student Portal"
+    },
+    {
+        "Agency Name": "Tote Board (Tote Board)",
+        "Focus": "Manages and oversees charitable and social initiatives",
+        "Sector": "Social Welfare",
+        "Online System/Platform": "Charity & Welfare Portal"
+    },
+    {
+        "Agency Name": "Traditional Chinese Medicine Practitioners Board (TCMPB)",
+        "Focus": "Regulates traditional Chinese medicine practitioners",
+        "Sector": "Regulation",
+        "Online System/Platform": "TCM Licensing Portal"
+    },
+    {
+        "Agency Name": "Urban Redevelopment Authority (URA)",
+        "Focus": "Plans and develops urban spaces and architecture",
+        "Sector": "Urban Development",
+        "Online System/Platform": "Urban Planning Portal"
+    }
+]

@@ -1,13 +1,15 @@
-# Strategic Auction Simulator
+# Contract Nexus
 
-A modern take on government infrastructure bidding, built for a hackathon with the theme "Modernise an existing system/process, making it secure and future-ready".
+An online platform to easily create and bid for system modernisation contracts. Be a Business or a Government Agency - the possibilities are endless!
+
+## Team Members
+
+Jiang Muzhen, Ahmad Dzuizz Annajib, Tyler Kiong Tai Le
+
+from NUS High School
 
 ## Overview
-This game simulates the bidding process for infrastructure projects in Singapore, where players can:
-- Create their own companies and submit contract proposals
-- Bid on other players' contracts
-- Manage their credits and strategy
-- Compete for the highest returns
+Contract Nexus is a gamified platform where you can create and bid for contracts regarding system modernisation. To start as a Business, simply browse our directory of government agencies to learn about the different systems you can attempt to modernise. Then, create a contract. To start as a Government Agency, browse the different contracts available - and bid for one! You can also view detailed AI analysis on the contract to help you choose. Once the bid is complete, the true value of the contract is revealed!
 
 ## Tech Stack
 - Next.js 14 with App Router
@@ -30,29 +32,3 @@ npm run dev
 ```
 
 4. Open [http://localhost:3000](http://localhost:3000) with your browser to start playing.
-
-## Game Rules
-1. Each player starts with 3,000 credits
-2. Players can create companies and submit contract proposals
-3. Contract values are determined by system algorithms
-4. Players bid on contracts without knowing their true value
-5. Contract creators receive 50% of the winning bid
-6. The game ends when all contracts have been auctioned
-7. Winner is determined by total credits + contract values
-
-## Project Structure
-```
-src/
-├── app/
-│   ├── layout.tsx
-│   └── page.tsx
-├── components/
-│   ├── ui/        # Shadcn UI components
-│   ├── game/      # Game-specific components
-│   └── forms/     # Form components
-├── lib/
-│   ├── types.ts   # TypeScript types
-│   └── utils.ts   # Utility functions
-└── data/
-    └── contracts.json  # Local storage for contracts
-```

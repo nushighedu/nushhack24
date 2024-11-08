@@ -256,7 +256,7 @@ export function Dashboard({ user, onLogout }: { user: User; onLogout: () => void
                             <CardHeader>
                                 <CardTitle className='flex justify-between'>
                                     <span>Create New Contract</span>
-                                    <span className='text-red-400'>Remember! "Modernise an existing system/process, making it secure and future-ready"</span>
+                                    <span className='text-red-200'>Modernise an existing system/process, making it secure and future-ready.</span>
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>

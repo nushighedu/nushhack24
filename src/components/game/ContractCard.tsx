@@ -91,6 +91,7 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
                     </div>
                   ) : aiResponse ? (
                     <div className="space-y-6 pb-6">
+                      {contract.status !== 'active' && (
                       <div>
                         <div className="p-4 rounded-lg bg-gray-700/50">
                           <div className="flex justify-between items-center mb-2">
@@ -100,6 +101,7 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
                           <p className="text-sm text-gray-400">{aiResponse.reasoning}</p>
                         </div>
                       </div>
+                      )}
 
                       <div>
                         <h3 className="text-lg font-semibold mb-2">Detailed Analysis</h3>
@@ -110,10 +112,11 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
                         <div className="bg-green-500/10 p-4 rounded-lg">
                           <h4 className="font-medium mb-2">Bidding Recommendation</h4>
                           <p className="text-sm">
-                            {aiResponse.value > contract?.minimumBid * 1.5
-                              ? "This contract appears to be undervalued. Consider bidding up to " +
-                              Math.floor(aiResponse.value * 0.9) + " credits for potential profit."
-                              : "Exercise caution when bidding. The estimated value suggests limited profit potential."}
+                            {aiResponse.value > contract.minimumBid * 2.5
+                            ? "This contract appears to be undervalued!"
+                            : aiResponse.value < contract.minimumBid * 1.5
+                                  ? "Exercise caution when bidding..."
+                                  : "The contract value seems reasonable..."}
                           </p>
                         </div>
                       )}

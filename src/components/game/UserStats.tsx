@@ -70,7 +70,7 @@ function BusinessStats({ user }: { user: BusinessUser, contracts: Record<string,
                 <div className="grid gap-6">
                     <div className="flex justify-between items-start">
                         <div>
-                            <h3 className="font-bold text-lg">{user.company.name}</h3>
+                            <h3 className="font-bold text-lg">{user?.company?.name}</h3>
                             <p className="text-sm text-gray-400">Business/Organization</p>
                         </div>
                         <div className="text-right">

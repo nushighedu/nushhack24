@@ -37,6 +37,7 @@ export class GameSocketClient {
 
   public createGame(gameConfig: any) {
     return new Promise((resolve, reject) => {
+      console.log("Socket create-game:", gameConfig);
       this.socket.emit('create-game', gameConfig);
       this.socket.once('game-created', resolve);
       this.socket.once('error', reject);

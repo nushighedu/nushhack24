@@ -8,7 +8,7 @@ import dotenv from 'dotenv';
 import './config/firebaseConfig';
 
 // Load environment variables
-dotenv.config();
+require('dotenv').config({ path: require('find-config')('.env') });
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

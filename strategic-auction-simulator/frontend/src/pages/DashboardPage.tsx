@@ -35,11 +35,12 @@ const DashboardPage: React.FC = () => {
   const handleCreateGame = async () => {
     try {
       const creator = user?.uid;
+      console.log('Creating new game for user:', creator);
       const newGame = await socketClient.createGame({ creator, players: [creator] });
       // @ts-ignore
       navigate(`/game/${newGame.id}`);
     } catch (error) {
-      console.error('Failed to create game:', error);
+      console.log('Failed to create game:', error);
     }
   };
 

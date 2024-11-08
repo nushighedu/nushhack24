@@ -2,15 +2,13 @@ import express from 'express';
 import http from 'http';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import dotenv from 'dotenv';
 
 // Import routes
 import gameRoutes from './routes/GameRoutes';
 import WebSocketService from './services/WebSocketService';
 
 // Load environment variables
-dotenv.config();
-console.log(process.env);
+require('dotenv').config({ path: require('find-config')('.env') });
 
 const app = express();
 const server = http.createServer(app);

@@ -69,8 +69,8 @@ export async function getValue(contract: Contract): Promise<OpenAIResponse1> {
         });
 
         const message = response.choices[0].message;
-        if (message?.parsed) {
-            return message.parsed;
+        if (message?.content) {
+            return JSON.parse(message.content);
         } else {
             return {
                 value: 1000,

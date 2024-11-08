@@ -1,4 +1,4 @@
-export type UserType = 'BUSINESS' | 'GOVERNMENT' | 'government' | 'business';
+export type UserType = 'government' | 'business';
 
 // Base user structure for shared properties
 export interface BaseUser {
@@ -6,17 +6,36 @@ export interface BaseUser {
   userType: UserType;
   credits: number;
   joinedAt: string;
+
+  contractsWon: string[];
+}
+
+// Government User structure
+export interface GovernmentUser extends BaseUser {
+  userType: 'government';
+  stats: {
+    contractsActive: string[];
+    contractsTotal: number;
+    totalSpent: number;
+    winRate: number;
+  };
+  organization: {
+    name: string;
+    description: string;
+    sector: string;
+    budget: number;
+    sustainabilityGoal: number; // 0-100
+  };
 }
 
 // Business User structure
 export interface BusinessUser extends BaseUser {
-  userType: 'BUSINESS' | 'business';
+  userType: 'business';
   stats: {
-    contractsWon: number;
+    sustainabilityScore: number;
+    contractsCreated: number;
     totalProfit: number;
-    successRate: number;
-    averageBidAmount: number;
-    competitionWinRate: number;
+    contractCompletionRate: number;
     activeContracts: string[];
     completedContracts: string[];
   };
@@ -25,30 +44,7 @@ export interface BusinessUser extends BaseUser {
     description: string;
     expertise: string[];
     yearsOfExperience: number;
-    previousProjects: string[];
     certifications?: string[];
-  };
-}
-
-// Government User structure
-export interface GovernmentUser extends BaseUser {
-  userType: 'GOVERNMENT' | 'government';
-  stats: {
-    contractsCreated: number;
-    totalSpent: number;
-    averageContractValue: number;
-    sustainabilityScore: number;
-    contractCompletionRate: number;
-    reputation?: number; // 0-100, added for extended flexibility
-    activeContracts: string[];
-    completedContracts: string[];
-  };
-  organization: {
-    name: string;
-    description: string;
-    sector: string;
-    budget: number;
-    sustainabilityGoal: number; // 0-100
   };
 }
 
@@ -60,7 +56,19 @@ export interface Bid {
   timestamp: string;
 }
 
+export interface ContractAnalysis {
+  value: number;
+  reasoning: string;
+  analysis: string;
+  timestamp: string;
+}
+
 export interface Contract {
+  status: 'active' | 'expired' | 'completed';
+  bids: Record<string, Bid>;  // userId -> Bid
+  winner?: string;
+  winningBid?: number;
+
   agencies: string;
   id: string;
   title: string;
@@ -72,15 +80,12 @@ export interface Contract {
   expectedDuration: number;
   trueValue: number;
   minimumBid: number;
-  status: 'active' | 'expired' | 'completed';
   expirationTime: string; // ISO string
-  bids: Record<string, Bid>; // userId -> Bid
-  winner?: string;
-  winningBid?: number;
   sustainabilityRating?: number; // Added post-completion
   completionStatus?: 'completed' | 'delayed' | 'failed';
   governmentRating?: number; // Business rates government's work
   contractorRating?: number; // Government rates business's contract
+  aiAnalysis?: ContractAnalysis
 }
 
 export interface OpenAIResponsePartial {

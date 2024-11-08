@@ -85,7 +85,7 @@ export function ContractForm({ user, onSubmit, onCancel }: ContractFormProps) {
             setRequirementsInput(cleanedRequirements.join(', '));
           }}
         />
-        {/* Optional: Show the requirements as tags below the input */}
+        {/* Shows requirements as tags below the input */}
         <div className="mt-2 flex flex-wrap gap-2">
           {contract.requirements?.map((req, index) => (
             <div
@@ -135,17 +135,19 @@ export function ContractForm({ user, onSubmit, onCancel }: ContractFormProps) {
         <label className="block text-sm font-medium mb-1">
           Sustainability Score (1-10): {contract.sustainability}
         </label>
-        <Slider
-          min={1}
-          max={10}
-          step={1}
-          value={[contract.sustainability || 5]}
-          onValueChange={([value]) => setContract({
-            ...contract,
-            sustainability: value
-          })}
-          className="my-4"
-        />
+        <div className="relative">
+          <Slider
+            min={1}
+            max={10}
+            step={1}
+            value={[contract.sustainability || 5]}
+            onValueChange={([value]) => setContract({
+              ...contract,
+              sustainability: value
+            })}
+            className="w-full relative flex items-center select-none touch-none h-5"
+          />
+        </div>
       </div>
 
       <div className="flex justify-end space-x-2">

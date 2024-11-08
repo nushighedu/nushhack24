@@ -58,10 +58,11 @@ const analyzeContract = async (contract: Contract): Promise<OpenAIResponse> => {
 };
 
 export function ContractCard({ contract, currentUser, onBid }: ContractCardProps) {
-  const [bidAmount, setBidAmount] = useState<number>(0);
   const [analysisOpen, setAnalysisOpen] = useState(false);
-  const [aiResponse, setAiResponse] = useState<OpenAIResponse | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const [bidAmount, setBidAmount] = useState<number>(0);
+  const [aiResponse, setAiResponse] = useState<OpenAIResponse | null>(null);
 
   const getTimeRemaining = (expirationTime: string) => {
     const remaining = new Date(expirationTime).getTime() - Date.now();
@@ -79,17 +80,9 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
       : contract.minimumBid;
   };
 
-  const handleAnalysis = async () => {
-    if (!aiResponse && !loading) {
-      setLoading(true);
-      try {
-        const response = await analyzeContract(contract);
-        setAiResponse(response);
-      } catch (error) {
-        console.error('Failed to get AI analysis:', error);
-      } finally {
-        setLoading(false);
-      }
+  const handleAnalysisClick = () => {
+    if (contract.aiAnalysis) {
+      setAnalysisOpen(true);
     }
   };
 
@@ -99,60 +92,55 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
 
   return (
     <Card className={`
-      relative w-full bg-gray-900/50 border-gray-800
+      w-full 
+      bg-gray-900/50 dark:bg-gray-950/50 
+      border-gray-800 dark:border-gray-900
       ${isCompleted ? 'opacity-75' : ''}
       ${isExpired ? 'opacity-50' : ''}
       ${contract.bids[currentUser.username] ? 'ring-1 ring-blue-500/50' : ''}
     `}>
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
-          <div className="flex-1">
-            <CardTitle className="text-lg font-semibold">{contract.title}</CardTitle>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            {/* AI Analysis Button and Dialog */}
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="h-8 px-2 bg-blue-500/10 hover:bg-blue-500/20 border-blue-500/20"
-                  onClick={handleAnalysis}
-                >
-                  {loading ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
+          <CardTitle className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            {contract.title}
+          </CardTitle>
+          <div className="flex items-center gap-2">
+            {contract.aiAnalysis && (
+              <Dialog open={analysisOpen} onOpenChange={setAnalysisOpen}>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-8 px-2 bg-blue-500/10 hover:bg-blue-500/20 border-blue-500/20"
+                    onClick={handleAnalysisClick}
+                  >
                     <BrainCircuit className="w-4 h-4" />
-                  )}
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-2xl bg-gray-800/80 text-white">
-                <DialogHeader>
-                  <DialogTitle>AI Analysis: {contract.title}</DialogTitle>
-                </DialogHeader>
-                {loading ? (
-                  <div className="flex items-center justify-center py-8">
-                    <Loader2 className="w-8 h-8 animate-spin" />
-                    <span className="ml-2">Analyzing contract...</span>
-                  </div>
-                ) : aiResponse ? (
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl">
+                  <DialogHeader>
+                    <DialogTitle>AI Analysis: {contract.title}</DialogTitle>
+                    <div className="text-sm text-gray-400">
+                      Analyzed on {new Date(contract.aiAnalysis.timestamp).toLocaleString()}
+                    </div>
+                  </DialogHeader>
+
                   <div className="space-y-6">
                     <div>
                       <h3 className="text-lg font-semibold mb-2">Estimated Value</h3>
-                      <div className="p-4 rounded-lg">
+                      <div className="bg-blue-500/10 p-4 rounded-lg">
                         <div className="flex justify-between items-center mb-2">
                           <span>Estimated True Value:</span>
-                          <span className="font-bold">{aiResponse.value} credits</span>
+                          <span className="font-bold">{contract.aiAnalysis.value} credits</span>
                         </div>
-                        <p className="text-sm text-gray-400">{aiResponse.reasoning}</p>
+                        <p className="text-sm text-gray-400">{contract.aiAnalysis.reasoning}</p>
                       </div>
                     </div>
 
                     <div>
                       <h3 className="text-lg font-semibold mb-2">Detailed Analysis</h3>
                       <div className="prose prose-invert max-w-none">
-                        {aiResponse.analysis.split('\n').map((paragraph, index) => (
+                        {contract.aiAnalysis.analysis.split('\n').map((paragraph, index) => (
                           <p key={index} className="mb-4 text-gray-300">
                             {paragraph}
                           </p>
@@ -164,21 +152,17 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
                       <div className="bg-green-500/10 p-4 rounded-lg">
                         <h4 className="font-medium mb-2">Bidding Recommendation</h4>
                         <p className="text-sm">
-                          {aiResponse.value > contract.minimumBid * 1.5
+                          {contract.aiAnalysis.value > contract.minimumBid * 1.5
                             ? "This contract appears to be undervalued. Consider bidding up to " +
-                            Math.floor(aiResponse.value * 0.9) + " credits for potential profit."
+                            Math.floor(contract.aiAnalysis.value * 0.9) + " credits for potential profit."
                             : "Exercise caution when bidding. The estimated value suggests limited profit potential."}
                         </p>
                       </div>
                     )}
                   </div>
-                ) : (
-                  <div className="text-center py-8 text-gray-400">
-                    Failed to load analysis. Please try again.
-                  </div>
-                )}
-              </DialogContent>
-            </Dialog>
+                </DialogContent>
+              </Dialog>
+            )}
 
             {/* Timer */}
             {contract.status === 'active' && (
@@ -196,7 +180,7 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-4">
+      <CardContent className="text-gray-700 dark:text-gray-300">
         <Collapsible>
           <CollapsibleTrigger className="flex items-center text-sm text-gray-400 hover:text-gray-300 transition-colors">
             <ChevronDown className="w-4 h-4 mr-1" />

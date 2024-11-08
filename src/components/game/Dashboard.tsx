@@ -1,23 +1,15 @@
 import { useState, useEffect, useMemo } from 'react';
+import { Award, FileText, LogOut, Percent, Plus, TrendingUp, Search } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ContractForm } from '@/components/forms/ContractForm';
 import { ContractList } from '@/components/game/ContractList';
 import { UserStats } from '@/components/game/UserStats';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { User, Contract } from '@/lib/types';
 import { LocalStore } from '@/lib/store';
-import {
-    Award,
-    FileText,
-    LogOut,
-    Percent,
-    Plus,
-    TrendingUp,
-    Search
-} from 'lucide-react';
-import { AgencySearch } from '../search/agencySearch';
+import { AgencySearch } from '@/components/search/agencySearch';
+import { ThemeToggle } from '../theme-toggle';
 
 type SortOption = 'expiringSoon' | 'highestBid' | 'mostBids' | 'newest';
 type FilterOption = 'all' | 'active' | 'completed' | 'expired';
@@ -30,10 +22,10 @@ export function Dashboard({
     onLogout: () => void;
 }) {
     const [contracts, setContracts] = useState<Record<string, Contract>>({});
-    const [showCreateContract, setShowCreateContract] = useState(false);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [sortBy, setSortBy] = useState<SortOption>('expiringSoon');
     const [filterStatus, setFilterStatus] = useState<FilterOption>('all');
+    const [showCreateContract, setShowCreateContract] = useState(false);
+    const [sortBy, setSortBy] = useState<SortOption>('expiringSoon');
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         loadContracts();
@@ -58,8 +50,7 @@ export function Dashboard({
 
         Object.entries(currentContracts).forEach(([id, contract]) => {
             if (contract.status === 'active' && new Date(contract.expirationTime) <= new Date()) {
-                const highestBid = Object.values(contract.bids)
-                    .sort((a, b) => b.amount - a.amount)[0];
+                const highestBid = Object.values(contract.bids).sort((a, b) => b.amount - a.amount)[0];
 
                 if (highestBid) {
                     contract.status = 'completed';
@@ -69,6 +60,7 @@ export function Dashboard({
                     const winner = LocalStore.getUser(highestBid.userId);
                     if (winner) {
                         winner.credits -= highestBid.amount;
+
                         if (!winner.contractsWon) {
                             winner.contractsWon = [];
                         }
@@ -90,36 +82,17 @@ export function Dashboard({
         }
     };
 
-    const handleCreateContract = (contract: Omit<Contract, 'id' | 'status' | 'trueValue'>) => {
+    const handleCreateContract = async (contract: Omit<Contract, 'id' | 'status' | 'trueValue'>) => {
         const newContract: Contract = {
             ...contract,
             id: crypto.randomUUID(),
             status: 'active',
             trueValue: Math.floor(Math.random() * 5000) + 1000,
-            expirationTime: new Date(Date.now() + 5 * 60000).toISOString(),
-            bids: {},
-            createdByBusiness: user.username,
-            sustainabilityRating: undefined,
-            completionStatus: undefined,
-            governmentRating: undefined,
-            contractorRating: undefined
+            expirationTime: new Date(Date.now() + 5 * 60000).toISOString(),  // 5 minutes
+            bids: {}
         };
 
-        LocalStore.addContract(newContract);
-
-        // Update business stats
-        if (user.userType === 'business') {
-            const updatedUser = {
-                ...user,
-                stats: {
-                    ...user.stats,
-                    contractsCreated: user.stats.contractsCreated + 1,
-                    activeContracts: [...user.stats.activeContracts, newContract.id]
-                }
-            };
-            LocalStore.setUser(user.username, updatedUser);
-        }
-
+        await LocalStore.addContract(newContract);  // Now using async addContract
         loadContracts();
         setShowCreateContract(false);
     };
@@ -178,6 +151,7 @@ export function Dashboard({
                     </h1>
                     <p className="text-gray-400 mt-1">Singapore&apos;s Infrastructure Bidding Platform</p>
                 </div>
+                <ThemeToggle />
                 <Button
                     onClick={onLogout}
                     variant="ghost"
@@ -226,20 +200,20 @@ export function Dashboard({
                                     <QuickStat
                                         icon={<TrendingUp className="w-4 h-4" />}
                                         label="Completion Rate"
-                                        value={`${Math.round(user.stats.completionRate)}%`}
+                                        value={`${Math.round(user.stats.contractCompletionRate)}%`}
                                     />
                                 </>
                             ) : (
                                 <>
                                     <QuickStat
                                         icon={<Award className="w-4 h-4" />}
-                                        label="Reputation"
-                                        value={`${user.stats.reputation}/100`}
+                                        label="Total Contracts"
+                                        value={`${user.stats.contractsTotal}/100`}
                                     />
                                     <QuickStat
                                         icon={<Percent className="w-4 h-4" />}
-                                        label="Success Rate"
-                                        value={`${Math.round(user.stats.successRate)}%`}
+                                        label="Win Rate"
+                                        value={`${Math.round(user.stats.winRate)}%`}
                                     />
                                 </>
                             )}

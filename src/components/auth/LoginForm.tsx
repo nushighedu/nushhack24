@@ -70,20 +70,19 @@ export function LoginForm({
                     userType: 'government',
                     credits: 3000,
                     joinedAt: new Date().toISOString(),
+                    contractsWon: [],
                     stats: {
-                        contractsWon: 0,
-                        totalProfit: 0,
-                        successRate: 0,
-                        reputation: 50,
-                        activeContracts: [],
-                        completedContracts: []
+                        contractsActive: [],
+                        contractsTotal: 0,
+                        totalSpent: 0,
+                        winRate: 0,
                     },
-                    company: {
+                    organization: {
                         name: orgDetails.name,
                         description: orgDetails.description,
-                        expertise: [],
-                        yearsOfExperience: 0,
-                        certifications: []
+                        sector: 'Observer',
+                        budget: 0,
+                        sustainabilityGoal: 80
                     }
                 };
             } else {
@@ -92,20 +91,21 @@ export function LoginForm({
                     userType: 'business',
                     credits: 10000,
                     joinedAt: new Date().toISOString(),
+                    contractsWon: [],
                     stats: {
+                        sustainabilityScore: 0,
                         contractsCreated: 0,
-                        totalSpent: 0,
-                        completionRate: 0,
-                        averageSustainability: 0,
+                        totalProfit: 0,
+                        contractCompletionRate: 0,
                         activeContracts: [],
-                        completedContracts: []
+                        completedContracts: [],
                     },
-                    organization: {
+                    company: {
                         name: orgDetails.name,
                         description: orgDetails.description,
-                        sector: 'Infrastructure',
-                        budget: 10000,
-                        sustainabilityGoal: 80
+                        expertise: [],
+                        yearsOfExperience: 0,
+                        certifications: [],
                     }
                 };
             }

@@ -6,9 +6,10 @@ import { ContractList } from '@/components/game/ContractList';
 import { UserStats } from '@/components/game/UserStats';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import type { User, Contract } from '@/lib/types';
+import type { User, Contract, OpenAIResponse } from '@/lib/types';
 import { LocalStore } from '@/lib/store';
 import { AgencySearch } from '@/components/search/agencySearch';
+import { getOpenAIResponse } from "@/lib/openai";
 import { ThemeToggle } from '../theme-toggle';
 
 type SortOption = 'expiringSoon' | 'highestBid' | 'mostBids' | 'newest';
@@ -82,19 +83,51 @@ export function Dashboard({
         }
     };
 
-    const handleCreateContract = async (contract: Omit<Contract, 'id' | 'status' | 'trueValue'>) => {
-        const newContract: Contract = {
+    const handleCreateContract = async (contract: Partial<Contract>) => {
+        let newContract: Partial<Contract> = {
             ...contract,
             id: crypto.randomUUID(),
             status: 'active',
-            trueValue: Math.floor(Math.random() * 5000) + 1000,
-            expirationTime: new Date(Date.now() + 5 * 60000).toISOString(),  // 5 minutes
-            bids: {}
+            AI_info: { analysis: '', reasoning: '', value: 0 },
+            trueValue: 0,
+            expirationTime: new Date(Date.now() + 5 * 60000).toISOString(),
+            bids: {},
+            createdByBusiness: user.username,
+            sustainabilityRating: undefined,
+            completionStatus: undefined,
+            governmentRating: undefined,
+            contractorRating: undefined
         };
 
-        await LocalStore.addContract(newContract);  // Now using async addContract
+        // Update business stats
+        if (user.userType === 'business') {
+            const updatedUser = {
+                ...user,
+                stats: {
+                    ...user.stats,
+                    contractsCreated: user.stats.contractsCreated + 1,
+                    activeContracts: [...user.stats.activeContracts, newContract.id]
+                }
+            };
+            LocalStore.setUser(user.username, updatedUser);
+        }
+
+        LocalStore.addContract(newContract);
         loadContracts();
-        setShowCreateContract(false);
+
+        setShowCreateContract(false); // hide the form
+
+        // call OpenAI to get contract analysis
+        const aiResponse = await getOpenAIResponse(contract);
+
+        newContract = {
+            ...newContract,
+            AI_info: aiResponse,
+            trueValue: aiResponse.value,
+        };
+
+        LocalStore.updateContract(newContract.id, newContract as Contract);
+        loadContracts();
     };
 
     const handleBid = (contractId: string, amount: number) => {

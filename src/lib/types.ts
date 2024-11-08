@@ -81,6 +81,10 @@ export interface Contract {
   trueValue: number;
   minimumBid: number;
   expirationTime: string; // ISO string
+  bids: Record<string, Bid>; // userId -> Bid
+  winner?: string;
+  winningBid?: number;
+  AI_info: OpenAIResponse;
   sustainabilityRating?: number; // Added post-completion
   completionStatus?: 'completed' | 'delayed' | 'failed';
   governmentRating?: number; // Business rates government's work

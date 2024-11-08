@@ -25,6 +25,7 @@ export const getValuePrompt = async (contract: Contract) => {
     Description: ${contract.description}
     Requirements: ${contract.requirements.join(', ')}
     Expected Duration: ${contract.expectedDuration} months
+    Sustainability Score: ${contract.sustainability}
    
     Based on the information provided, suggest the true value of this contract. The value reflects the benefits that the project brings to the government.
     Follow the guidelines below:
@@ -40,8 +41,8 @@ export const getValuePrompt = async (contract: Contract) => {
 }
 
 // A mock response function for when API key is missing
-const getMockResponse = (contract: Contract): OpenAIResponse => ({
-    value: Math.floor(Math.random() * 3000) + 2000,
+const getMockResponse = (contract: Partial<Contract>): OpenAIResponse => ({
+    value: Math.floor(Math.random() * 10000),
     reasoning: "This is a mock analysis because the OpenAI API key is not configured.",
     analysis: `Mock analysis for contract: ${contract.title}\n\n` +
         "Due to API configuration issues, this is a simulated response.\n\n" +
@@ -52,7 +53,7 @@ const getMockResponse = (contract: Contract): OpenAIResponse => ({
         "- Technical implementation challenges"
 });
 
-export async function getValue(contract: Contract): Promise<OpenAIResponsePartial> {
+export async function getValue(contract: Partial<Contract>): Promise<OpenAIResponsePartial> {
     if (!apiKey) {
         const mockResponse = getMockResponse(contract);
         return {
@@ -109,7 +110,7 @@ export async function getValue(contract: Contract): Promise<OpenAIResponsePartia
             return JSON.parse(message.content);
         } else {
             return {
-                value: 1000,
+                value: Math.floor(Math.random() * 10000),
                 reasoning: "No reasoning provided / Refused by model"
             }
         }
@@ -117,7 +118,7 @@ export async function getValue(contract: Contract): Promise<OpenAIResponsePartia
     catch (error) {
         console.error(error);
         return {
-            value: 1000,
+            value: Math.floor(Math.random() * 10000),
             reasoning: "No reasoning provided / Error: " + error
         }
     }
@@ -130,6 +131,7 @@ export const getAnalysisPrompt = async (contract: Contract) => {
     Description: ${contract.description}
     Requirements: ${contract.requirements.join(', ')}
     Expected Duration: ${contract.expectedDuration} months
+    Sustainability Score: ${contract.sustainability}
    
     The user is considering whether to bid on this contract. Provide an analysis of the contract, including the risks and benefits of bidding on this contract.
     However, the analysis should be balanced and not biased towards either choice. The analysis should be easily understandable by the user. You should explain
@@ -139,7 +141,7 @@ export const getAnalysisPrompt = async (contract: Contract) => {
     return prompt;
 }
 
-export async function getAnalysis(contract: Contract): Promise<string> {
+export async function getAnalysis(contract: Partial<Contract>): Promise<string> {
     if (!apiKey) {
         return getMockResponse(contract).analysis;
     }
@@ -178,7 +180,7 @@ export async function getAnalysis(contract: Contract): Promise<string> {
     }
 }
 
-export async function getOpenAIResponse(contract: Contract): Promise<OpenAIResponse> {
+export async function getOpenAIResponse(contract: Partial<Contract>): Promise<OpenAIResponse> {
     if (!apiKey) {
         return getMockResponse(contract);
     }
@@ -186,11 +188,14 @@ export async function getOpenAIResponse(contract: Contract): Promise<OpenAIRespo
     const value = await getValue(contract);
     const analysis = await getAnalysis(contract);
 
-    return {
+    const response = {
         value: value.value,
         reasoning: value.reasoning,
         analysis: analysis
     };
+
+    console.log("OpenAI Response: ", response);
+    return response;
 }
 
 

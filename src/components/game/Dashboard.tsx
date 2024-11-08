@@ -100,7 +100,7 @@ export function Dashboard({ user, onLogout }: { user: User; onLogout: () => void
                 stats: {
                     ...user.stats,
                     contractsCreated: user.stats.contractsCreated + 1,
-                    activeContracts: [...user.stats.activeContracts, newContract.id]
+                    activeContracts: [...user.stats.activeContracts.filter(Boolean), newContract.id]
                 }
             };
             LocalStore.setUser(user.username, updatedUser);

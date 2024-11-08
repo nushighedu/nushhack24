@@ -84,14 +84,14 @@ export async function getValue(contract: Partial<Contract>): Promise<OpenAIRespo
             schema: {
                 type: "object",
                 properties: {
-                    value: {
-                        type: "number"
-                    },
                     reasoning: {
                         type: "string"
+                    },
+                    value: {
+                        type: "number"
                     }
                 },
-                required: ["value", "reasoning"],
+                required: ["reasoning", "value"],
                 additionalProperties: false
             }
         }

@@ -148,7 +148,7 @@ export function LoginForm({
                                 <Label htmlFor="government" className="flex-1 cursor-pointer">
                                     <div className="flex items-center mb-1">
                                         <Building2 className="w-4 h-4 mr-2" />
-                                        <span className="font-medium">Government Contractor</span>
+                                        <span className="font-medium">Government Agency</span>
                                     </div>
                                     <p className="text-sm text-gray-400">
                                         Bid on contracts, build reputation, and compete with other companies

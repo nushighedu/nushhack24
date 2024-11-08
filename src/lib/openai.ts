@@ -25,6 +25,7 @@ export const getValuePrompt = async (contract: Contract) => {
     Description: ${contract.description}
     Requirements: ${contract.requirements.join(', ')}
     Expected Duration: ${contract.expectedDuration} months
+    Sustainability Score: ${contract.sustainability}
    
     Based on the information provided, suggest the true value of this contract. The value reflects the benefits that the project brings to the government.
     Follow the guidelines below:
@@ -130,6 +131,7 @@ export const getAnalysisPrompt = async (contract: Contract) => {
     Description: ${contract.description}
     Requirements: ${contract.requirements.join(', ')}
     Expected Duration: ${contract.expectedDuration} months
+    Sustainability Score: ${contract.sustainability}
    
     The user is considering whether to bid on this contract. Provide an analysis of the contract, including the risks and benefits of bidding on this contract.
     However, the analysis should be balanced and not biased towards either choice. The analysis should be easily understandable by the user. You should explain

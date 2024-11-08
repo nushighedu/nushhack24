@@ -88,61 +88,65 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
                     <span className="ml-2">Analyzing contract...</span>
                   </div>
                 ) : aiResponse ? (
-                  <div className="space-y-6">
-                    {/*<div>*/}
-                    {/*  <h3 className="text-lg font-semibold mb-2">Estimated Value</h3>*/}
-                    {/*  <div className="p-4 rounded-lg">*/}
-                    {/*    <div className="flex justify-between items-center mb-2">*/}
-                    {/*      <span>Estimated True Value:</span>*/}
-                    {/*      <span className="font-bold">{aiResponse.value} credits</span>*/}
-                    {/*    </div>*/}
-                    {/*    <p className="text-sm text-gray-400">{aiResponse.reasoning}</p>*/}
-                    {/*  </div>*/}
-                    {/*</div>*/}
+                    <div className="space-y-6">
+                      <div className="max-h-80 overflow-y-auto">
+                        {contract.status !== 'active' && (
+                            <div>
+                              <h3 className="text-lg font-semibold mb-2">Estimated Value</h3>
+                              <div className="p-4 rounded-lg">
+                                <div className="flex justify-between items-center mb-2">
+                                  <span>Estimated True Value:</span>
+                                  <span className="font-bold">{aiResponse.value} credits</span>
+                                </div>
+                                <p className="text-sm text-gray-400">{aiResponse.reasoning}</p>
+                              </div>
+                            </div>
+                        )}
 
-                    <div className="max-h-64 overflow-y-auto">
-                      <h3 className="text-lg font-semibold mb-2">Detailed Analysis</h3>
-                      <div className="prose prose-invert max-w-none">
-                        {aiResponse.analysis.split('\n').map((paragraph, index) => (
-                          <p key={index} className="mb-4 text-gray-300">
-                            {paragraph}
-                          </p>
-                        ))}
+                        <div>
+                          <h3 className="text-lg font-semibold mb-2">Detailed Analysis</h3>
+                          <div className="prose prose-invert max-w-none">
+                            {aiResponse.analysis.split('\n').map((paragraph, index) => (
+                                <p key={index} className="mb-4 text-gray-300">
+                                  {paragraph}
+                                </p>
+                            ))}
+                          </div>
+                        </div>
                       </div>
+
+                      {currentUser.userType === 'government' && (
+                          <div className="bg-green-500/10 p-4 rounded-lg">
+                            <h4 className="font-medium mb-2">Bidding Recommendation</h4>
+                            <p className="text-sm">
+                              {aiResponse.value > contract.minimumBid * 2.5
+                                  ? "This contract appears to be undervalued!"
+                                  : aiResponse.value < contract.minimumBid * 1.5
+                                      ? "Exercise caution when bidding..."
+                                      : "The contract value seems reasonable..."}
+                            </p>
+                          </div>
+                      )}
                     </div>
-
-                    {currentUser.userType === 'government' && (
-                      <div className="bg-green-500/10 p-4 rounded-lg">
-                        <h4 className="font-medium mb-2">Bidding Recommendation</h4>
-                        <p className="text-sm">
-                          {aiResponse.value > contract.minimumBid * 2.5
-                            ? "This contract appears to be undervalued!"
-                            : aiResponse.value < contract.minimumBid * 1.5
-                                  ? "Exercise caution when bidding..."
-                                  : "The contract value seems reasonable..."}
-                        </p>
-                      </div>
-                    )}
-                  </div>
                 ) : (
-                  <div className="text-center py-8 text-gray-400">
-                    Failed to load analysis. Please try again.
-                  </div>
+                    <div className="text-center py-8 text-gray-400">
+                      Failed to load analysis. Please try again.
+                    </div>
                 )}
               </DialogContent>
             </Dialog>
 
             {/* Timer */}
             {contract.status === 'active' && (
-              <div className={`
+                <div className={`
                 px-2 py-1 rounded text-sm font-medium flex items-center
                 ${getTimeRemaining(contract.expirationTime) === 'Expired'
-                  ? 'bg-red-500/20 text-red-400'
-                  : 'bg-blue-500/20 text-blue-400'}
+                    ? 'bg-red-500/20 text-red-400'
+                    : 'bg-blue-500/20 text-blue-400'}
               `}>
-                <Timer className="w-4 h-4 mr-1" />
-                {getTimeRemaining(contract.expirationTime)}
-              </div>
+                  <Timer className="w-4 h-4 mr-1"/>
+                  {getTimeRemaining(contract.expirationTime)}
+                </div>
             )}
           </div>
         </div>
@@ -151,7 +155,7 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
       <CardContent className="space-y-4">
         <Collapsible>
           <CollapsibleTrigger className="flex items-center text-sm text-gray-400 hover:text-gray-300 transition-colors">
-            <ChevronDown className="w-4 h-4 mr-1" />
+            <ChevronDown className="w-4 h-4 mr-1"/>
             Contract Details
           </CollapsibleTrigger>
           <CollapsibleContent className="mt-2 space-y-2 text-sm">

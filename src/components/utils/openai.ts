@@ -48,15 +48,14 @@ export async function getValue(contract: Contract): Promise<OpenAIResponse1> {
                 type: "object",
                 properties: {
                     value: {
-                        type: "number",
-                        minimum: 0,
-                        maximum: 10000
+                        type: "number"
                     },
                     reasoning: {
                         type: "string"
                     }
                 },
-                required: ["value", "reasoning"]
+                required: ["value", "reasoning"],
+                additionalProperties: false
             }
         }
     };

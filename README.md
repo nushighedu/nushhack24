@@ -26,9 +26,11 @@ Contract Nexus is a gamified platform where you can create and bid for contracts
 npm install
 ```
 
-3. Run the development server:
+3. To access AI features, you will need to obtain an OpenAI API Key and set it as the environment variable `NEXT_PUBLIC_OPENAI_API_KEY`.
+
+4. Run the development server:
 ```bash
 npm run dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) with your browser to start playing.
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to start playing.

@@ -1,19 +1,22 @@
-export type UserType = 'government' | 'business';
+export type UserType = 'BUSINESS' | 'GOVERNMENT' | 'government' | 'business';
 
+// Base user structure for shared properties
 export interface BaseUser {
   username: string;
   userType: UserType;
-  joinedAt: string;
   credits: number;
+  joinedAt: string;
 }
 
-export interface GovernmentUser extends BaseUser {
-  userType: 'government';
+// Business User structure
+export interface BusinessUser extends BaseUser {
+  userType: 'BUSINESS' | 'business';
   stats: {
     contractsWon: number;
     totalProfit: number;
     successRate: number;
-    reputation: number; // 0-100
+    averageBidAmount: number;
+    competitionWinRate: number;
     activeContracts: string[];
     completedContracts: string[];
   };
@@ -22,17 +25,21 @@ export interface GovernmentUser extends BaseUser {
     description: string;
     expertise: string[];
     yearsOfExperience: number;
-    certifications: string[];
+    previousProjects: string[];
+    certifications?: string[];
   };
 }
 
-export interface BusinessUser extends BaseUser {
-  userType: 'business';
+// Government User structure
+export interface GovernmentUser extends BaseUser {
+  userType: 'GOVERNMENT' | 'government';
   stats: {
     contractsCreated: number;
     totalSpent: number;
-    completionRate: number;
-    averageSustainability: number;
+    averageContractValue: number;
+    sustainabilityScore: number;
+    contractCompletionRate: number;
+    reputation?: number; // 0-100, added for extended flexibility
     activeContracts: string[];
     completedContracts: string[];
   };
@@ -45,13 +52,32 @@ export interface BusinessUser extends BaseUser {
   };
 }
 
-export type User = GovernmentUser | BusinessUser;
+export type User = BusinessUser | GovernmentUser;
+
+export interface Bid {
+  userId: string;
+  amount: number;
+  timestamp: string;
+}
 
 export interface Contract {
-  // ... existing Contract interface ...
-  createdByBusiness: string; // username of business that created it
-  sustainabilityRating?: number; // added post-completion
+  id: string;
+  title: string;
+  description: string;
+  createdBy: string;
+  createdByBusiness: string; // Username of the business that created it
+  requirements: string[];
+  sustainability: number;
+  expectedDuration: number;
+  trueValue: number;
+  minimumBid: number;
+  status: 'active' | 'expired' | 'completed';
+  expirationTime: string; // ISO string
+  bids: Record<string, Bid>; // userId -> Bid
+  winner?: string;
+  winningBid?: number;
+  sustainabilityRating?: number; // Added post-completion
   completionStatus?: 'completed' | 'delayed' | 'failed';
-  governmentRating?: number; // business rates government's work
-  contractorRating?: number; // government rates business's contract
+  governmentRating?: number; // Business rates government's work
+  contractorRating?: number; // Government rates business's contract
 }

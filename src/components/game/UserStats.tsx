@@ -26,7 +26,7 @@ function GovernmentStats({ user, contracts }: { user: GovernmentUser, contracts:
                     <div className="flex justify-between items-start">
                         <div>
                             <h3 className="font-bold text-lg">{user.company.name}</h3>
-                            <p className="text-sm text-gray-400">Government Contractor</p>
+                            <p className="text-sm text-gray-400">Government Agency</p>
                         </div>
                         <div className="text-right">
                             <h3 className="font-bold text-lg">{user.credits}</h3>

@@ -17,6 +17,7 @@ import {
     TrendingUp,
     Search
 } from 'lucide-react';
+import { AgencySearch } from '../search/agencySearch';
 
 type SortOption = 'expiringSoon' | 'highestBid' | 'mostBids' | 'newest';
 type FilterOption = 'all' | 'active' | 'completed' | 'expired';
@@ -271,7 +272,7 @@ export function Dashboard({
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
                             </div>
-                            <Select
+                            {/* <Select
                                 value={sortBy}
                                 onValueChange={(value) => setSortBy(value as SortOption)}
                             >
@@ -298,9 +299,13 @@ export function Dashboard({
                                     <SelectItem value="completed">Completed</SelectItem>
                                     <SelectItem value="expired">Expired</SelectItem>
                                 </SelectContent>
-                            </Select>
+                            </Select> */}
                         </div>
                     )}
+
+                    <div className="flex justify-between items-center mb-4">
+                        <AgencySearch />
+                    </div>
 
                     <ContractList
                         contracts={filteredAndSortedContracts}

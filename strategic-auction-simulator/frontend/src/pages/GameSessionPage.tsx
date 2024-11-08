@@ -11,9 +11,11 @@ import {
   ListItemText
 } from '@mui/material';
 import { GameSocketClient } from '../utils/gameHelpers';
-import AuthService from '../services/AuthService';
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 
+import { User } from 'firebase/auth';
+
+// Update interface for Contract
 interface Contract {
   id: string;
   title: string;
@@ -22,13 +24,13 @@ interface Contract {
 }
 
 const GameSessionPage: React.FC<{ gameId: string }> = ({ gameId }) => {
-  const [user, setUser] = useState(null);
-  const [contracts, setContracts] = useState([]);
-  const [currentBid] = useState(0);
+  const [user, setUser] = useState<User | null>(null);
+  const [contracts, setContracts] = useState<Contract[]>([]);
+  const [currentBid, setCurrentBid] = useState<number>(0);
+  const auth = getAuth();
   const socketClient = GameSocketClient.getInstance();
 
   useEffect(() => {
-    const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
@@ -39,24 +41,24 @@ const GameSessionPage: React.FC<{ gameId: string }> = ({ gameId }) => {
     socketClient.joinGame(gameId);
 
     // Listen for contract updates
-    const handleContractUpdate = (newContracts) => {
+    const handleContractUpdate = (newContracts: Contract[]) => {
       setContracts(newContracts);
     };
 
     socketClient.onGameUpdate(handleContractUpdate);
 
-    // Cleanup
+    // Cleanup subscriptions
     return () => {
       unsubscribe();
       socketClient.cleanup();
     };
-  }, [gameId, socketClient]);
+  }, [gameId, auth]);
 
   const handlePlaceBid = async (contractId: string) => {
     try {
       await socketClient.placeBid({
         gameId,
-        playerId: user?.uid,
+        playerId: user?.uid ?? '',
         contractId,
         bidAmount: currentBid
       });
@@ -93,20 +95,6 @@ const GameSessionPage: React.FC<{ gameId: string }> = ({ gameId }) => {
                   </ListItem>
                 ))}
               </List>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <Card>
-            <CardContent>
-              <Typography variant="h5">Your Status</Typography>
-              <Typography>
-                Credits: {/* Display user credits */}
-              </Typography>
-              <Typography>
-                Active Bids: {/* Display active bids */}
-                    </Typography>
             </CardContent>
           </Card>
         </Grid>

@@ -1,66 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Container,
-  Typography,
-  Grid,
-  Card,
-  CardContent,
-  Button
-} from '@mui/material';
-import { ContractSubmissionForm } from '../components/ContractSubmissionForm';
-import { GameSocketClient } from '../utils/gameHelpers';
-import AuthService from '../services/AuthService';
-import {getAuth, onAuthStateChanged} from "firebase/auth";
+import { User } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import {GameSocketClient} from "../utils/gameHelpers";
+import {Card, CardContent, Container, Grid, Typography} from "@mui/material";
 
+// Update interface for GameSession
 interface GameSession {
   id: string;
-  players: any[];
+  players: string[];
   status: string;
 }
 
 const DashboardPage: React.FC = () => {
-  const [user, setUser] = useState(null);
-  const [activeSessions] = useState([]);
+  const [user, setUser] = useState<User | null>(null);
+  const [activeSessions, setActiveSessions] = useState<GameSession[]>([]);
+  const auth = getAuth();
   const socketClient = GameSocketClient.getInstance();
 
   useEffect(() => {
-    const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
       }
     });
 
-    // Fetch active game sessions
-    const fetchActiveSessions = async () => {
-      try {
-        // Placeholder for actual API call
-        // const sessions = await gameService.getActiveSessions();
-        // setActiveSessions(sessions);
-      } catch (error) {
-        console.error('Failed to fetch active sessions', error);
-      }
-    };
-
-    fetchActiveSessions();
-
-    // Listen for game updates
-    socketClient.onGameUpdate((gameState) => {
-      console.log('Game state updated:', gameState);
-    });
-
-    // Cleanup subscription
-    return () => {
-      unsubscribe();
-      socketClient.cleanup();
-    };
-  }, [socketClient]);
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, [auth]);
 
   const handleCreateGame = async () => {
     try {
       const newGame = await socketClient.createGame({
-        creator: user?.uid,
-        players: [user?.uid]
+        creator: user?.uid ?? '',
+        players: user?.uid ? [user.uid] : []
       });
       console.log('Game created:', newGame);
     } catch (error) {
@@ -72,7 +44,7 @@ const DashboardPage: React.FC = () => {
     try {
       const submittedContract = await socketClient.submitContract({
         ...contractData,
-        playerId: user?.uid
+        playerId: user?.uid ?? ''
       });
       console.log('Contract submitted:', submittedContract);
     } catch (error) {
@@ -83,48 +55,22 @@ const DashboardPage: React.FC = () => {
   return (
     <Container maxWidth="lg">
       <Typography variant="h4" gutterBottom>
-        Welcome, {user?.displayName || 'Player'}
+        Welcome, {user?.displayName ?? 'Player'}
       </Typography>
 
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="h5">Create New Game</Typography>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleCreateGame}
-              >
-                Create Game
-              </Button>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="h5">Active Game Sessions</Typography>
-              {activeSessions.map(session => (
-                <div key={session.id}>
-                  <Typography>
-                    Game {session.id} - {session.status}
-                  </Typography>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12}>
-          <Card>
-            <CardContent>
-              <Typography variant="h5">Submit Contract</Typography>
-              <ContractSubmissionForm onSubmit={handleContractSubmit} />
-            </CardContent>
-          </Card>
-        </Grid>
+      <Grid item xs={12} md={6}>
+        <Card>
+          <CardContent>
+            <Typography variant="h5">Active Game Sessions</Typography>
+            {activeSessions.map(session => (
+              <div key={session.id}>
+                <Typography>
+                  Game {session.id} - {session.status}
+                </Typography>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
       </Grid>
     </Container>
   );

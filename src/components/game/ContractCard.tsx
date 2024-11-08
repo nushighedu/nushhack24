@@ -1,29 +1,12 @@
-import { useState } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-  ChevronDown,
-  Timer,
-  DollarSign,
-  Award,
-  Loader2,
-  BrainCircuit
-} from 'lucide-react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { getOpenAIResponse } from '@/lib/openai';
-import type { Contract, User, OpenAIResponse } from '@/lib/types';
+import {useState} from 'react';
+import {Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card';
+import {Button} from '@/components/ui/button';
+import {Input} from '@/components/ui/input';
+import {Award, BrainCircuit, ChevronDown, DollarSign, Loader2, Timer} from 'lucide-react';
+import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,} from "@/components/ui/dialog";
+import {Collapsible, CollapsibleContent, CollapsibleTrigger,} from "@/components/ui/collapsible";
+import type {Contract, OpenAIResponse, User} from '@/lib/types';
+import {sleep} from "openai/core";
 
 interface ContractCardProps {
   contract: Contract;
@@ -31,35 +14,8 @@ interface ContractCardProps {
   onBid: (contractId: string, amount: number) => void;
 }
 
-const analyzeContract = async (contract: Contract): Promise<OpenAIResponse> => {
-  try {
-    const response = await fetch('/api/analyze', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(contract),
-    });
-
-    if (!response.ok) {
-      throw new Error('Analysis failed');
-    }
-
-    const data = await response.json();
-    return data.data;
-  } catch (error) {
-    console.error('Analysis error:', error);
-    return {
-      value: Math.floor(Math.random() * 3000) + 2000,
-      reasoning: "Analysis failed. Using estimated values.",
-      analysis: "Unable to perform detailed analysis at this time."
-    };
-  }
-};
-
 export function ContractCard({ contract, currentUser, onBid }: ContractCardProps) {
   const [bidAmount, setBidAmount] = useState<number>(0);
-  const [analysisOpen, setAnalysisOpen] = useState(false);
   const [aiResponse, setAiResponse] = useState<OpenAIResponse | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -80,16 +36,11 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
   };
 
   const handleAnalysis = async () => {
-    if (!aiResponse && !loading) {
+    if (!aiResponse || !aiResponse.analysis) {
       setLoading(true);
-      try {
-        const response = await analyzeContract(contract);
-        setAiResponse(response);
-      } catch (error) {
-        console.error('Failed to get AI analysis:', error);
-      } finally {
-        setLoading(false);
-      }
+      await sleep(Math.random() * 1000 + 500);
+      setAiResponse(contract?.AI_info);
+      setLoading(false);
     }
   };
 
@@ -138,16 +89,16 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
                   </div>
                 ) : aiResponse ? (
                   <div className="space-y-6">
-                    <div>
-                      <h3 className="text-lg font-semibold mb-2">Estimated Value</h3>
-                      <div className="p-4 rounded-lg">
-                        <div className="flex justify-between items-center mb-2">
-                          <span>Estimated True Value:</span>
-                          <span className="font-bold">{aiResponse.value} credits</span>
-                        </div>
-                        <p className="text-sm text-gray-400">{aiResponse.reasoning}</p>
-                      </div>
-                    </div>
+                    {/*<div>*/}
+                    {/*  <h3 className="text-lg font-semibold mb-2">Estimated Value</h3>*/}
+                    {/*  <div className="p-4 rounded-lg">*/}
+                    {/*    <div className="flex justify-between items-center mb-2">*/}
+                    {/*      <span>Estimated True Value:</span>*/}
+                    {/*      <span className="font-bold">{aiResponse.value} credits</span>*/}
+                    {/*    </div>*/}
+                    {/*    <p className="text-sm text-gray-400">{aiResponse.reasoning}</p>*/}
+                    {/*  </div>*/}
+                    {/*</div>*/}
 
                     <div>
                       <h3 className="text-lg font-semibold mb-2">Detailed Analysis</h3>

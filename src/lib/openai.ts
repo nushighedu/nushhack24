@@ -40,8 +40,8 @@ export const getValuePrompt = async (contract: Contract) => {
 }
 
 // A mock response function for when API key is missing
-const getMockResponse = (contract: Contract): OpenAIResponse => ({
-    value: Math.floor(Math.random() * 3000) + 2000,
+const getMockResponse = (contract: Partial<Contract>): OpenAIResponse => ({
+    value: Math.floor(Math.random() * 10000),
     reasoning: "This is a mock analysis because the OpenAI API key is not configured.",
     analysis: `Mock analysis for contract: ${contract.title}\n\n` +
         "Due to API configuration issues, this is a simulated response.\n\n" +
@@ -52,7 +52,7 @@ const getMockResponse = (contract: Contract): OpenAIResponse => ({
         "- Technical implementation challenges"
 });
 
-export async function getValue(contract: Contract): Promise<OpenAIResponsePartial> {
+export async function getValue(contract: Partial<Contract>): Promise<OpenAIResponsePartial> {
     if (!apiKey) {
         const mockResponse = getMockResponse(contract);
         return {
@@ -109,7 +109,7 @@ export async function getValue(contract: Contract): Promise<OpenAIResponsePartia
             return JSON.parse(message.content);
         } else {
             return {
-                value: 1000,
+                value: Math.floor(Math.random() * 10000),
                 reasoning: "No reasoning provided / Refused by model"
             }
         }
@@ -117,7 +117,7 @@ export async function getValue(contract: Contract): Promise<OpenAIResponsePartia
     catch (error) {
         console.error(error);
         return {
-            value: 1000,
+            value: Math.floor(Math.random() * 10000),
             reasoning: "No reasoning provided / Error: " + error
         }
     }
@@ -139,7 +139,7 @@ export const getAnalysisPrompt = async (contract: Contract) => {
     return prompt;
 }
 
-export async function getAnalysis(contract: Contract): Promise<string> {
+export async function getAnalysis(contract: Partial<Contract>): Promise<string> {
     if (!apiKey) {
         return getMockResponse(contract).analysis;
     }
@@ -178,7 +178,7 @@ export async function getAnalysis(contract: Contract): Promise<string> {
     }
 }
 
-export async function getOpenAIResponse(contract: Contract): Promise<OpenAIResponse> {
+export async function getOpenAIResponse(contract: Partial<Contract>): Promise<OpenAIResponse> {
     if (!apiKey) {
         return getMockResponse(contract);
     }
@@ -186,11 +186,14 @@ export async function getOpenAIResponse(contract: Contract): Promise<OpenAIRespo
     const value = await getValue(contract);
     const analysis = await getAnalysis(contract);
 
-    return {
+    const response = {
         value: value.value,
         reasoning: value.reasoning,
         analysis: analysis
     };
+
+    console.log("OpenAI Response: ", response);
+    return response;
 }
 
 

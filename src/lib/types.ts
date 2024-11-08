@@ -12,6 +12,7 @@ export interface BaseUser {
 export interface BusinessUser extends BaseUser {
   userType: 'BUSINESS' | 'business';
   stats: {
+    contractsCreated: number;
     contractsWon: number;
     totalProfit: number;
     successRate: number;
@@ -77,6 +78,7 @@ export interface Contract {
   bids: Record<string, Bid>; // userId -> Bid
   winner?: string;
   winningBid?: number;
+  AI_info: OpenAIResponse;
   sustainabilityRating?: number; // Added post-completion
   completionStatus?: 'completed' | 'delayed' | 'failed';
   governmentRating?: number; // Business rates government's work

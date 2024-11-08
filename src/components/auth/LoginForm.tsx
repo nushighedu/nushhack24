@@ -151,7 +151,7 @@ export function LoginForm({
                                         <span className="font-medium">Government Agency</span>
                                     </div>
                                     <p className="text-sm text-gray-400">
-                                        Bid on contracts, build reputation, and compete with other companies
+                                        Bid on contracts to modernise system infrastructure
                                     </p>
                                 </Label>
                             </div>
@@ -170,7 +170,7 @@ export function LoginForm({
                                         <span className="font-medium">Business/Organization</span>
                                     </div>
                                     <p className="text-sm text-gray-400">
-                                        Create contracts, track spending, and evaluate contractor performance
+                                        Create contracts to modernise Government systems
                                     </p>
                                 </Label>
                             </div>

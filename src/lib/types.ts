@@ -92,3 +92,12 @@ export interface OpenAIResponse {
   reasoning: string;
   analysis: string;
 }
+
+export type Role = 'system' | 'user' | 'assistant';
+
+export type Message = {
+  role: Role;
+  content: string;
+}
+
+export type Messages = Message[];

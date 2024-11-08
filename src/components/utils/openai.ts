@@ -1,10 +1,10 @@
 import OpenAI from 'openai';
-import { Contract, OpenAIResponsePartial, OpenAIResponse } from "@/lib/types";
+import {Contract, OpenAIResponsePartial, OpenAIResponse, Message, Messages, Role} from "@/lib/types";
 
 const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
 
 export const getSystemPrompt = async () => {
-    return `You are the assistant for the Modernisation game. Your task involves analysing contracts. These contracts are created by companies and are bid upon by the government agencies of Singapore.
+    return `You are the assistant for the Modernisation game. Your task involves analysing contracts, which are created by players. These contracts are created by companies and are bid upon by the government agencies of Singapore.
     The theme of this game is "Modernise an existing system/process, making it secure and future-ready". The contracts and your analysis should be strongly related to this theme.
     `
 }
@@ -153,4 +153,71 @@ export async function getOpenAIResponse(contract: Contract): Promise<OpenAIRespo
         reasoning: value.reasoning,
         analysis: analysis
     };
+}
+
+
+// chatbot class
+const getChatSystemPrompt = () => {
+    return `${getSystemPrompt()}
+    
+    You are now in a chat session with the user. You will act as a helpful assistant. The user may ask questions or provide information about the contracts. You will provide responses based on the information provided.
+    Remember that the context of the conversation is the Modernisation game, and the location is Singapore. You should provide relevant and accurate information based on this context.
+    You may also ask questions to clarify the user's input or to provide more accurate responses. The goal is to assist the user in analysing the contracts and making informed.
+    
+    The following is part of the format of a contract:
+    Title; Description; Government Agencies; Requirements; Expected Duration; Minimum Bid.
+    
+    REMEMBER: Your responses must ALWAYS be related to the game context only. You should not provide any irrelevant information or break character. If irrelevant or inappropriate prompts are given, you should decline to respond
+    by stating "I'm sorry, I cannot respond to that prompt. Is there anything else I can help you with?".
+    `
+};
+
+export class ChatSession {
+    public messages: Messages;
+
+    constructor(messages: Messages = [], systemPrompt: string = getChatSystemPrompt()) {
+        this.messages = messages;
+        this.messages.push({role: 'system', content: systemPrompt});
+    }
+
+    async addMessage(role: Role, content: string) {
+        this.messages.push({role, content});
+    }
+
+    // get response and add to messages
+    async getResponse() {
+        let message;
+        try {
+            const response = await openai.chat.completions.create({
+                messages: this.messages,
+                model: 'gpt-4o-mini-2024-07-18',
+                stream: false
+            });
+            message = response.choices[0].message.content || "No response provided";
+        }
+        catch (error) {
+            console.error(error);
+            message = "No response provided / Error: " + error;
+        }
+        this.messages.push({role: 'assistant', content: message});
+        return message;
+    }
+}
+
+// example usage
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function exampleChatSessionUsage() {
+    // initialize chat session
+    const chat = new ChatSession();
+
+    // interactively take input
+    while (true) {
+        const input = prompt("Enter your message: ");
+        if (!input) break;
+
+        await chat.addMessage('user', input); // add user message
+        const response = await chat.getResponse(); // get response
+        console.log(response);
+        // console.log("Messages so far: ", chat.messages);
+    }
 }

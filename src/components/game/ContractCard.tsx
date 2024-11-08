@@ -100,7 +100,7 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
                     {/*  </div>*/}
                     {/*</div>*/}
 
-                    <div>
+                    <div className="max-h-64 overflow-y-auto">
                       <h3 className="text-lg font-semibold mb-2">Detailed Analysis</h3>
                       <div className="prose prose-invert max-w-none">
                         {aiResponse.analysis.split('\n').map((paragraph, index) => (
@@ -115,10 +115,11 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
                       <div className="bg-green-500/10 p-4 rounded-lg">
                         <h4 className="font-medium mb-2">Bidding Recommendation</h4>
                         <p className="text-sm">
-                          {aiResponse.value > contract.minimumBid * 1.5
-                            ? "This contract appears to be undervalued. Consider bidding up to " +
-                            Math.floor(aiResponse.value * 0.9) + " credits for potential profit."
-                            : "Exercise caution when bidding. The estimated value suggests limited profit potential."}
+                          {aiResponse.value > contract.minimumBid * 2.5
+                            ? "This contract appears to be undervalued!"
+                            : aiResponse.value < contract.minimumBid * 1.5
+                                  ? "Exercise caution when bidding..."
+                                  : "The contract value seems reasonable..."}
                         </p>
                       </div>
                     )}

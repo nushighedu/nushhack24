@@ -174,7 +174,7 @@ export function Dashboard({
             <div className="flex justify-between items-center bg-gray-800/50 p-6 rounded-2xl backdrop-blur-sm">
                 <div>
                     <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
-                        Strategic Auction Simulator
+                        Contract Nexus
                     </h1>
                     <p className="text-gray-400 mt-1">Singapore&apos;s Infrastructure Bidding Platform</p>
                 </div>
@@ -251,7 +251,10 @@ export function Dashboard({
                     {showCreateContract ? (
                         <Card className="p-6">
                             <CardHeader>
-                                <CardTitle>Create New Contract</CardTitle>
+                                <CardTitle className='flex justify-between'>
+                                    <span>Create New Contract</span>
+                                    <span className='text-red-400'>Remember! "Modernise an existing system/process, making it secure and future-ready"</span>
+                                </CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <ContractForm

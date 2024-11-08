@@ -439,7 +439,7 @@ export function AgencySearch() {
                     Browse Government Agencies
                 </Button>
             </DialogTrigger>
-            <DialogContent className="bg-black text-white max-w-4xl max-h-[80vh] overflow-y-auto">
+            <DialogContent className="bg-gray-800 text-white max-w-4xl max-h-[80vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Government Agencies Directory</DialogTitle>
                 </DialogHeader>
@@ -464,7 +464,7 @@ export function AgencySearch() {
                                 <Filter className="w-4 h-4 mr-2" />
                                 <SelectValue placeholder="Filter by sector" />
                             </SelectTrigger>
-                            <SelectContent className='bg-black hover:text-blue-300 hover:'>
+                            <SelectContent className='bg-gray-800 hover:text-blue-300 hover:'>
                                 {sectors.map(sector => (
                                     <SelectItem key={sector} value={sector} className="text-white">
                                         {sector === 'all' ? 'All sectors' : sector}

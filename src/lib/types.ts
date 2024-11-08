@@ -61,6 +61,7 @@ export interface Bid {
 }
 
 export interface Contract {
+  agencies: string;
   id: string;
   title: string;
   description: string;
@@ -81,3 +82,23 @@ export interface Contract {
   governmentRating?: number; // Business rates government's work
   contractorRating?: number; // Government rates business's contract
 }
+
+export interface OpenAIResponsePartial {
+  value: number;
+  reasoning: string;
+}
+
+export interface OpenAIResponse {
+  value: number;
+  reasoning: string;
+  analysis: string;
+}
+
+export type Role = 'system' | 'user' | 'assistant';
+
+export type Message = {
+  role: Role;
+  content: string;
+}
+
+export type Messages = Message[];

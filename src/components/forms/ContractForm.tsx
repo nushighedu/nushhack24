@@ -20,16 +20,7 @@ export function ContractForm({ user, onSubmit, onCancel }: ContractFormProps) {
     minimumBid: 1000,
     bids: {}
   });
-
-  // Predefined Singapore-themed project suggestions
-  const projectSuggestions = [
-    "MRT Thomson-East Coast Line Extension",
-    "Changi Airport Terminal 5 Development",
-    "Tuas Port Automation System",
-    "Smart Nation Sensor Platform",
-    "Jurong Lake District Development",
-    "Greater Southern Waterfront Project"
-  ];
+  const [requirementsInput, setRequirementsInput] = useState(contract.requirements?.join(', ') || '');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,10 +31,10 @@ export function ContractForm({ user, onSubmit, onCancel }: ContractFormProps) {
 
   const isFormValid = () => {
     return contract.title &&
-           contract.description &&
-           contract.minimumBid &&
-           contract.expectedDuration &&
-           contract.sustainability;
+      contract.description &&
+      contract.minimumBid &&
+      contract.expectedDuration &&
+      contract.sustainability;
   };
 
   return (
@@ -56,26 +47,13 @@ export function ContractForm({ user, onSubmit, onCancel }: ContractFormProps) {
           value={contract.title || ''}
           onChange={(e) => setContract({ ...contract, title: e.target.value })}
         />
-        <div className="mt-2 flex flex-wrap gap-2">
-          {projectSuggestions.map(suggestion => (
-            <Button
-              key={suggestion}
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => setContract({ ...contract, title: suggestion })}
-            >
-              {suggestion}
-            </Button>
-          ))}
-        </div>
       </div>
 
       <div>
         <label className="block text-sm font-medium mb-1">Description</label>
         <Textarea
           required
-          placeholder="Describe the project scope and objectives..."
+          placeholder="Describe the project scope and guidelines..."
           value={contract.description || ''}
           onChange={(e) => setContract({ ...contract, description: e.target.value })}
           className="h-32"
@@ -86,12 +64,38 @@ export function ContractForm({ user, onSubmit, onCancel }: ContractFormProps) {
         <label className="block text-sm font-medium mb-1">Requirements (comma-separated)</label>
         <Input
           placeholder="e.g., ISO certification, Local workforce, Green certification"
-          value={contract.requirements?.join(', ') || ''}
-          onChange={(e) => setContract({ 
-            ...contract, 
-            requirements: e.target.value.split(',').map(r => r.trim()).filter(Boolean)
-          })}
+          value={requirementsInput}
+          onChange={(e) => {
+            setRequirementsInput(e.target.value);
+            // Update the actual requirements array only after typing
+            setContract({
+              ...contract,
+              requirements: e.target.value
+                .split(',')
+                .map(r => r.trim())
+                .filter(Boolean)
+            });
+          }}
+          onBlur={() => {
+            // Clean up the input on blur
+            const cleanedRequirements = requirementsInput
+              .split(',')
+              .map(r => r.trim())
+              .filter(Boolean);
+            setRequirementsInput(cleanedRequirements.join(', '));
+          }}
         />
+        {/* Optional: Show the requirements as tags below the input */}
+        <div className="mt-2 flex flex-wrap gap-2">
+          {contract.requirements?.map((req, index) => (
+            <div
+              key={index}
+              className="bg-blue-500/20 text-blue-300 px-2 py-1 rounded-md text-sm"
+            >
+              {req}
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -103,9 +107,9 @@ export function ContractForm({ user, onSubmit, onCancel }: ContractFormProps) {
             min={1}
             max={60}
             value={contract.expectedDuration || ''}
-            onChange={(e) => setContract({ 
-              ...contract, 
-              expectedDuration: parseInt(e.target.value) 
+            onChange={(e) => setContract({
+              ...contract,
+              expectedDuration: parseInt(e.target.value)
             })}
           />
         </div>
@@ -119,9 +123,9 @@ export function ContractForm({ user, onSubmit, onCancel }: ContractFormProps) {
             max={5000}
             step={100}
             value={contract.minimumBid || ''}
-            onChange={(e) => setContract({ 
-              ...contract, 
-              minimumBid: parseInt(e.target.value) 
+            onChange={(e) => setContract({
+              ...contract,
+              minimumBid: parseInt(e.target.value)
             })}
           />
         </div>
@@ -136,9 +140,9 @@ export function ContractForm({ user, onSubmit, onCancel }: ContractFormProps) {
           max={10}
           step={1}
           value={[contract.sustainability || 5]}
-          onValueChange={([value]) => setContract({ 
-            ...contract, 
-            sustainability: value 
+          onValueChange={([value]) => setContract({
+            ...contract,
+            sustainability: value
           })}
           className="my-4"
         />
@@ -150,7 +154,7 @@ export function ContractForm({ user, onSubmit, onCancel }: ContractFormProps) {
             Cancel
           </Button>
         )}
-        <Button 
+        <Button
           type="submit"
           disabled={!isFormValid()}
         >

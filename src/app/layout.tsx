@@ -4,8 +4,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Strategic Auction Simulator',
-  description: 'A modern take on infrastructure bidding',
+  title: 'Contract Nexus',
+  description: 'A modern take on infrastructure/innovation bidding',
 }
 
 export default function RootLayout({

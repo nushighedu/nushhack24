@@ -1,0 +1,304 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family:'Poleno_Semibold', monospace;
+    background-color: #f7f7f7;
+    color: #e0e0e0;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ashyashyashyashyashy */
+
+
+.glass0 {
+    box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.95), 0 0 25px 10px rgba(0, 0, 0, 0.1);
+  }
+
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(14, 14, 14, 0.98);
+    padding: 8px 0;
+    z-index: 1000;
+    font-family: "Poleno_Semibold";
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    margin:auto;
+}
+
+.brand {
+    font-size: 24px;
+    color: #e61010;
+    font-weight: 700;
+    letter-spacing: 0.9px;
+}
+
+.nav-links a {
+    color: #fff;
+    margin: 15 15px;
+    font-weight: 500;
+    transition: color 0.45s;
+    margin-right: 1rem;
+}
+
+.nav-links a:hover {
+    color: #ec6b5a;
+}
+
+.nav-links-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+
+.hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('https://pbs.twimg.com/media/FSSr6XoacAAyPcY.jpg') center/cover no-repeat;
+    color: white;
+    text-align: center;
+    line-height:44px;
+    background-attachment: fixed;
+}
+
+.hero-content {
+    width:100vw;
+    z-index: 1;
+    padding: 52px;
+    background: rgba(121, 2, 2, 0.85);
+    border-radius: 8px;
+}
+
+@font-face {
+    font-family: 'Poleno_Semibold';
+    src: url('/fonts/Poleno_SemiBold.ttf');
+
+}
+
+.hero h1 {
+    font-size: 80px;
+    margin-bottom: 20px;
+    font-weight: 800;
+    font-family:'Poleno_Semibold';
+}
+
+.tagline {
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: 400;
+    font-family: 'Poleno_Semibold';
+}
+
+.cta-btn {
+    padding: 10px 30px;
+    background-color: #f48888;
+    color: black;
+    border-radius: 25px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s;
+}
+
+.cta-btn:hover {
+    background-color: #7a0a0a;
+    color:#f8dbdb
+}
+
+/* ABOUT */
+.about {
+    background-color: #9b0404;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.section-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.about p {
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+/* FEATURES */
+.features {
+    background-color: #8d0404;
+    padding: 100px 20px;
+}
+
+.features h2 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.feature-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.feature-card {
+    background: rgb(25, 24, 24);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 6px 15px rgba(22, 18, 18, 0.1);
+    text-align: center;
+    flex: 1;
+    transition: transform 0.45s ease-out, box-shadow 1.2s ease-out;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.feature-card p {
+    font-size: 16px;
+    color: #bababa;
+}
+
+/* PLAY */
+.cta {
+    background: #5b0000;
+    padding: 60px 20px;
+    text-align: center;
+    border-radius: 2px;
+}
+
+.cta h2 {
+    font-size: 60px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #c9c7c7;
+}
+
+.cta p {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #c9c7c7;
+}
+
+.cta .cta-btn {
+    background-color: #3d0404;
+    color: white;
+}
+
+.cta .cta-btn:hover {
+    background-color: #a90909;
+    color:#e8d7ac
+}
+
+/* COPYRIGHT SHIT */
+footer {
+    background-color: #5a0b0b;
+    color: white;
+    text-align: center;
+    padding: 2px;
+}
+
+footer p {
+    font-size: 12px;
+}
+
+.userInfoContainer {
+    display: flex;
+    align-items: center;
+    gap: 4px; 
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 80px;
+    background-color: rgb(197, 197, 197);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 2px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgb(145, 134, 134) transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+#signInBtn {
+    padding: 8px 10px;
+    cursor: pointer;
+    background-color: #a80a1f;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+
+#signOutBtn {
+    padding: 8px 10px;
+    cursor: pointer;
+    background-color: #a80a1f;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}

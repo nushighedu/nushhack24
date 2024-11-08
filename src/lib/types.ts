@@ -82,7 +82,13 @@ export interface Contract {
   contractorRating?: number; // Government rates business's contract
 }
 
-export interface OpenAIResponse1 {
+export interface OpenAIResponsePartial {
   value: number;
   reasoning: string;
+}
+
+export interface OpenAIResponse {
+  value: number;
+  reasoning: string;
+  analysis: string;
 }

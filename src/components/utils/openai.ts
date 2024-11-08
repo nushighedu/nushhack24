@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { Contract, OpenAIResponse1 } from "@/lib/types";
+import { Contract, OpenAIResponsePartial, OpenAIResponse } from "@/lib/types";
 
 const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
 
@@ -24,7 +24,7 @@ export const getValuePrompt = async (contract: Contract) => {
     return prompt;
 }
 
-export async function getValue(contract: Contract): Promise<OpenAIResponse1> {
+export async function getValue(contract: Contract): Promise<OpenAIResponsePartial> {
     const prompt = await getValuePrompt(contract);
     const systemPrompt = await getSystemPrompt();
 
@@ -136,4 +136,15 @@ export async function getAnalysis(contract: Contract): Promise<string> {
         console.error(error);
         return "No analysis provided / Error: " + error;
     }
+}
+
+export async function getOpenAIResponse(contract: Contract): Promise<OpenAIResponse> {
+    const value = await getValue(contract);
+    const analysis = await getAnalysis(contract);
+
+    return {
+        value: value.value,
+        reasoning: value.reasoning,
+        analysis: analysis
+    };
 }

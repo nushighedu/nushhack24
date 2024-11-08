@@ -106,7 +106,7 @@ export function Dashboard({ user, onLogout }: { user: User; onLogout: () => void
             LocalStore.setUser(user.username, updatedUser);
         }
 
-        LocalStore.addContract(newContract);
+        await LocalStore.addContract(newContract);
         loadContracts();
 
         setShowCreateContract(false); // hide the form

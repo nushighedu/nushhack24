@@ -145,17 +145,17 @@ export function LoginForm({
                                 className={`
                   relative flex items-center space-x-4 p-4 rounded-xl border border-gray-700
                   transition-all duration-200 cursor-pointer
-                  ${userType === 'government' ? 'bg-blue-500/10 border-blue-500/50' : 'hover:bg-gray-700/30'}
+                  ${userType === 'business' ? 'bg-blue-500/10 border-blue-500/50' : 'hover:bg-gray-700/30'}
                 `}
                             >
-                                <RadioGroupItem value="government" id="government" />
-                                <Label htmlFor="government" className="flex-1 cursor-pointer">
+                                <RadioGroupItem value="business" id="business"/>
+                                <Label htmlFor="business" className="flex-1 cursor-pointer">
                                     <div className="flex items-center mb-1">
-                                        <Building2 className="w-4 h-4 mr-2" />
-                                        <span className="font-medium">Government Agency</span>
+                                        <Briefcase className="w-4 h-4 mr-2"/>
+                                        <span className="font-medium">Business/Organization</span>
                                     </div>
                                     <p className="text-sm text-gray-400">
-                                        Bid on contracts to modernise system infrastructure
+                                        Create contracts to modernise Government systems
                                     </p>
                                 </Label>
                             </div>
@@ -164,17 +164,17 @@ export function LoginForm({
                                 className={`
                   relative flex items-center space-x-4 p-4 rounded-xl border border-gray-700
                   transition-all duration-200 cursor-pointer
-                  ${userType === 'business' ? 'bg-blue-500/10 border-blue-500/50' : 'hover:bg-gray-700/30'}
+                  ${userType === 'government' ? 'bg-blue-500/10 border-blue-500/50' : 'hover:bg-gray-700/30'}
                 `}
                             >
-                                <RadioGroupItem value="business" id="business" />
-                                <Label htmlFor="business" className="flex-1 cursor-pointer">
+                                <RadioGroupItem value="government" id="government"/>
+                                <Label htmlFor="government" className="flex-1 cursor-pointer">
                                     <div className="flex items-center mb-1">
-                                        <Briefcase className="w-4 h-4 mr-2" />
-                                        <span className="font-medium">Business/Organization</span>
+                                        <Building2 className="w-4 h-4 mr-2"/>
+                                        <span className="font-medium">Government Agency</span>
                                     </div>
                                     <p className="text-sm text-gray-400">
-                                        Create contracts to modernise Government systems
+                                        Bid on contracts to modernise system infrastructure
                                     </p>
                                 </Label>
                             </div>
@@ -185,18 +185,19 @@ export function LoginForm({
                             className="w-full mt-6 bg-blue-500 hover:bg-blue-600"
                         >
                             Continue
-                            <ArrowRight className="w-4 h-4 ml-2" />
+                            <ArrowRight className="w-4 h-4 ml-2"/>
                         </Button>
                     </CardContent>
                 </Card>
             </div>
-        </div >
+        </div>
     );
 
     const renderDetailsForm = () => (
-        <div className="min-h-screen flex items-center justify-center p-4 dark:bg-gradient-to-b from-gray-900 to-gray-800">
+        <div
+            className="min-h-screen flex items-center justify-center p-4 dark:bg-gradient-to-b from-gray-900 to-gray-800">
             <div className="absolute top-4 right-4">
-                <ThemeToggle />
+                <ThemeToggle/>
             </div>
             <div className="max-w-md w-full space-y-8">
                 <Button
@@ -204,7 +205,7 @@ export function LoginForm({
                     onClick={() => setStep('type')}
                     className="mb-4 hover:bg-gray-800/50"
                 >
-                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    <ArrowLeft className="w-4 h-4 mr-2"/>
                     Back
                 </Button>
 

@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import type { Contract, OpenAIResponse, User } from '@/lib/types';
 import { sleep } from "openai/core";
+import MarkdownRenderer from '@/components/MarkdownRenderer';
 
 interface ContractCardProps {
   contract: Contract;
@@ -77,56 +78,52 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
                   <BrainCircuit className="w-4 h-4" />
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-2xl bg-gray-800/80 text-white">
-                <DialogHeader>
-                  <DialogTitle>AI Analysis: {contract.title}</DialogTitle>
+              <DialogContent className="max-w-2xl bg-gray-800/80 text-white max-h-[80vh] overflow-y-auto">
+                <DialogHeader className="sticky top-0 bg-gray-800/80 py-4 backdrop-blur-sm">
+                  <DialogTitle>AI Analysis: {contract?.title}</DialogTitle>
                 </DialogHeader>
-                {loading ? (
-                  <div className="flex items-center justify-center py-8">
-                    <Loader2 className="w-8 h-8 animate-spin" />
-                    <span className="ml-2">Analyzing contract...</span>
-                  </div>
-                ) : aiResponse ? (
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="text-lg font-semibold mb-2">Estimated Value</h3>
-                      <div className="p-4 rounded-lg">
-                        <div className="flex justify-between items-center mb-2">
-                          <span>Estimated True Value:</span>
-                          <span className="font-bold">{aiResponse.value} credits</span>
+
+                <div className="px-2">
+                  {loading ? (
+                    <div className="flex items-center justify-center py-8">
+                      <Loader2 className="w-8 h-8 animate-spin" />
+                      <span className="ml-2">Analyzing contract...</span>
+                    </div>
+                  ) : aiResponse ? (
+                    <div className="space-y-6 pb-6">
+                      <div>
+                        <div className="p-4 rounded-lg bg-gray-700/50">
+                          <div className="flex justify-between items-center mb-2">
+                            <span>Estimated True Value:</span>
+                            <span className="font-bold">{aiResponse.value} credits</span>
+                          </div>
+                          <p className="text-sm text-gray-400">{aiResponse.reasoning}</p>
                         </div>
-                        <p className="text-sm text-gray-400">{aiResponse.reasoning}</p>
                       </div>
-                    </div>
 
-                    <div>
-                      <h3 className="text-lg font-semibold mb-2">Detailed Analysis</h3>
-                      <div className="prose prose-invert max-w-none">
-                        {aiResponse.analysis.split('\n').map((paragraph, index) => (
-                          <p key={index} className="mb-4 text-gray-300">
-                            {paragraph}
+                      <div>
+                        <h3 className="text-lg font-semibold mb-2">Detailed Analysis</h3>
+                        <MarkdownRenderer content={aiResponse.analysis} className="prose prose-invert max-w-none" />
+                      </div>
+
+                      {currentUser?.userType === 'government' && (
+                        <div className="bg-green-500/10 p-4 rounded-lg">
+                          <h4 className="font-medium mb-2">Bidding Recommendation</h4>
+                          <p className="text-sm">
+                            {aiResponse.value > contract?.minimumBid * 1.5
+                              ? "This contract appears to be undervalued. Consider bidding up to " +
+                              Math.floor(aiResponse.value * 0.9) + " credits for potential profit."
+                              : "Exercise caution when bidding. The estimated value suggests limited profit potential."}
                           </p>
-                        ))}
-                      </div>
+                        </div>
+                      )}
                     </div>
-
-                    {currentUser.userType === 'government' && (
-                      <div className="bg-green-500/10 p-4 rounded-lg">
-                        <h4 className="font-medium mb-2">Bidding Recommendation</h4>
-                        <p className="text-sm">
-                          {aiResponse.value > contract.minimumBid * 1.5
-                            ? "This contract appears to be undervalued. Consider bidding up to " +
-                            Math.floor(aiResponse.value * 0.9) + " credits for potential profit."
-                            : "Exercise caution when bidding. The estimated value suggests limited profit potential."}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="text-center py-8 text-gray-400">
-                    Failed to load analysis. Please try again.
-                  </div>
-                )}
+                  ) : (
+                    <div className="text-center py-8 text-gray-400">
+                      Failed to load analysis. Please try again.
+                    </div>
+                  )}
+                </div>
               </DialogContent>
             </Dialog>
 

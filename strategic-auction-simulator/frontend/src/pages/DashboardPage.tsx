@@ -1,54 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { User } from 'firebase/auth';
+import { Container, Typography, Grid, Card, CardContent, Button, List, ListItem, ListItemText } from '@mui/material';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import {GameSocketClient} from "../utils/gameHelpers";
-import {Card, CardContent, Container, Grid, Typography} from "@mui/material";
+import { useNavigate } from 'react-router-dom';
+import { GameSocketClient } from '../utils/gameHelpers';
+import { User } from 'firebase/auth';
 
-// Update interface for GameSession
 interface GameSession {
   id: string;
-  players: string[];
+  players: number;
   status: string;
 }
 
 const DashboardPage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [activeSessions, setActiveSessions] = useState<GameSession[]>([]);
+  const [activeGames, setActiveGames] = useState<GameSession[]>([]);
   const auth = getAuth();
+  const navigate = useNavigate();
   const socketClient = GameSocketClient.getInstance();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-      }
+      setUser(currentUser);
     });
 
-    // Cleanup subscription on unmount
+    // Fetch active games
+    fetch('/api/game/list', { method: 'GET' })
+        .then(response => response.json())
+         .then(data => setActiveGames(data))
+         .catch(error => console.error('Failed to fetch games:', error));
+
     return () => unsubscribe();
   }, [auth]);
 
   const handleCreateGame = async () => {
     try {
-      const newGame = await socketClient.createGame({
-        creator: user?.uid ?? '',
-        players: user?.uid ? [user.uid] : []
-      });
-      console.log('Game created:', newGame);
+      const creator = user?.uid;
+      const newGame = await socketClient.createGame({ creator, players: [creator] });
+      // @ts-ignore
+      navigate(`/game/${newGame.id}`);
     } catch (error) {
-      console.error('Failed to create game', error);
+      console.error('Failed to create game:', error);
     }
   };
 
-  const handleContractSubmit = async (contractData: any) => {
+  const handleJoinGame = async (gameId: string) => {
+    console.log('Joining game:', gameId);
     try {
-      const submittedContract = await socketClient.submitContract({
-        ...contractData,
-        playerId: user?.uid ?? ''
+      await fetch('/api/game/join', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ gameId, playerId: user?.uid })
       });
-      console.log('Contract submitted:', submittedContract);
+      navigate(`/game/${gameId}`);
     } catch (error) {
-      console.error('Failed to submit contract', error);
+      console.error('Failed to join game:', error);
     }
   };
 
@@ -58,17 +63,32 @@ const DashboardPage: React.FC = () => {
         Welcome, {user?.displayName ?? 'Player'}
       </Typography>
 
-      <Grid item xs={12} md={6}>
+      {/* Create Game Button */}
+      <Button variant="contained" color="primary" onClick={handleCreateGame} sx={{ mb: 3 }}>
+        Create New Game
+      </Button>
+
+      {/* Active Games List */}
+      <Grid item xs={12}>
         <Card>
           <CardContent>
-            <Typography variant="h5">Active Game Sessions</Typography>
-            {activeSessions.map(session => (
-              <div key={session.id}>
-                <Typography>
-                  Game {session.id} - {session.status}
-                </Typography>
-              </div>
-            ))}
+            <Typography variant="h5">Join a Game</Typography>
+            <List>
+              {activeGames.map((game) => (
+                <ListItem key={game.id}>
+                  <ListItemText
+                    primary={`Game ID: ${game.id}`}
+                    secondary={`Players: ${game.players}`}
+                  />
+                  <Button
+                    variant="outlined"
+                    onClick={() => handleJoinGame(game.id)}
+                  >
+                    Join
+                  </Button>
+                </ListItem>
+              ))}
+            </List>
           </CardContent>
         </Card>
       </Grid>

@@ -22,4 +22,8 @@ router.get('/game-history', (req, res) => {
   // Retrieve game history for a player
 });
 
+// Fetch all games in waiting status
+router.get('/list', GameController.listGames);
+router.post('/join', GameController.joinGame);
+
 export default router;

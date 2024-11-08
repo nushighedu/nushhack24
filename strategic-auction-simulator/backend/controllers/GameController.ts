@@ -1,21 +1,16 @@
 import { Request, Response } from 'express';
-import { GameSessionModel, IGameSession, IPlayer, IContract } from '../models/Game';
-import OpenAIService from '../services/OpenAIService';
+import { GameSessionModel, IGameSession } from '../models/Game';
 import { v4 as uuidv4 } from 'uuid';
 
+// Constants
+const MAX_PLAYERS = 10;
+
 export class GameController {
+  // Create a new game session
   async createGame(req: Request, res: Response) {
     try {
       const { players } = req.body;
 
-      // Validate input
-      if (!players || players.length < 2) {
-        return res.status(400).json({
-          error: 'At least two players are required to start a game'
-        });
-      }
-
-      // Create new game session
       const gameSession: IGameSession = {
         id: uuidv4(),
         players: players.map((player: any) => ({
@@ -45,31 +40,23 @@ export class GameController {
     }
   }
 
+  // Submit a contract
   async submitContract(req: Request, res: Response) {
     try {
       const { gameId, playerId, contract } = req.body;
 
-      // Validate input
       if (!gameId || !playerId || !contract) {
         return res.status(400).json({ error: 'Missing required fields' });
       }
 
-      // Find game session
       const gameSession = await GameSessionModel.findById(gameId);
+
       if (!gameSession) {
         return res.status(404).json({ error: 'Game not found' });
       }
 
-      // Enhance contract with AI evaluation
-      const evaluatedContract = await OpenAIService.assessContractValue({
+      const newContract = {
         ...contract,
-        creator: playerId
-      });
-
-      // Add contract to game session
-      const newContract: IContract = {
-        ...contract,
-        ...evaluatedContract,
         creator: playerId,
         id: uuidv4()
       };
@@ -87,109 +74,48 @@ export class GameController {
     }
   }
 
-  async placeBid(req: Request, res: Response) {
+  // List active games
+  async listGames(req: Request, res: Response) {
     try {
-      const { gameId, playerId, contractId, bidAmount } = req.body;
-
-      // Validate input
-      if (!gameId || !playerId || !contractId || !bidAmount) {
-        return res.status(400).json({ error: 'Missing required fields' });
-      }
-
-      // Find game session
-      const gameSession = await GameSessionModel.findById(gameId);
-      if (!gameSession) {
-        return res.status(404).json({ error: 'Game not found' });
-      }
-
-      // Find the contract
-      const contract = gameSession.contracts.find(c => c.id === contractId);
-      if (!contract) {
-        return res.status(404).json({ error: 'Contract not found' });
-      }
-
-      // Find the player
-      const player = gameSession.players.find(p => p.id === playerId);
-      if (!player) {
-        return res.status(404).json({ error: 'Player not found' });
-      }
-
-      // Check if player has enough credits
-      if (player.credits < bidAmount) {
-        return res.status(400).json({ error: 'Insufficient credits' });
-      }
-
-      // Update player's bid
-      player.currentBids.push({ contractId, bidAmount });
-
-      // Save updated game session
-      await gameSession.save();
-
-      res.status(200).json({
-        message: 'Bid placed successfully',
-        bid: { contractId, bidAmount }
-      });
+      const games = await GameSessionModel.find({ status: 'WAITING' });
+      res.status(200).json(games);
     } catch (error) {
-      console.error('Bid Placement Error:', error);
-      res.status(500).json({ error: 'Failed to place bid' });
+      res.status(500).json({ error: 'Failed to list games' });
     }
   }
 
-  async concludeRound(req: Request, res: Response) {
+  // Join a game
+  async joinGame(req: Request, res: Response) {
     try {
-      const { gameId } = req.body;
+      const { gameId, playerId } = req.body;
 
-      // Find game session
       const gameSession = await GameSessionModel.findById(gameId);
-      if (!gameSession) {
-        return res.status(404).json({ error: 'Game not found' });
+
+      if (!gameSession || gameSession.status !== 'WAITING') {
+        return res.status(404).json({ error: 'Game not found or already started' });
       }
 
-      // Process bids and determine winners
-      gameSession.contracts.forEach(contract => {
-        const bids = gameSession.players
-          .flatMap(player =>
-            player.currentBids
-              .filter(bid => bid.contractId === contract.id)
-          )
-          .sort((a, b) => b.bidAmount - a.bidAmount);
+      if (gameSession.players.length >= MAX_PLAYERS) {
+        return res.status(400).json({ error: 'Game is full' });
+      }
 
-        // Highest bid wins
-        if (bids.length > 0) {
-          const winningBid = bids[0];
-          const winningPlayer = gameSession.players.find(
-            p => p.currentBids.includes(winningBid)
-          );
+      const existingPlayer = gameSession.players.find(p => p.id === playerId);
 
-          if (winningPlayer) {
-            // Deduct credits from winner
-            winningPlayer.credits -= winningBid.bidAmount;
+      if (!existingPlayer) {
+        gameSession.players.push({
+          id: playerId,
+          username: 'Anonymous', // Ideally, fetch actual username from auth data
+          credits: 3000,
+          contracts: [],
+          loans: 0,
+          currentBids: []
+        });
+        await gameSession.save();
+      }
 
-            // Credit goes to contract creator
-            const creatorPlayer = gameSession.players.find(
-              p => p.id === contract.creator
-            );
-
-            if (creatorPlayer) {
-              creatorPlayer.credits += winningBid.bidAmount * 0.5;
-            }
-          }
-        }
-      });
-
-      // Increment round
-      gameSession.currentRound++;
-
-      // Save updated game session
-      await gameSession.save();
-
-      res.status(200).json({
-        message: 'Round concluded successfully',
-        round: gameSession.currentRound
-      });
+      res.status(200).json({ message: 'Joined game successfully', gameId });
     } catch (error) {
-      console.error('Round Conclusion Error:', error);
-      res.status(500).json({ error: 'Failed to conclude round' });
+      res.status(500).json({ error: 'Failed to join game' });
     }
   }
 }

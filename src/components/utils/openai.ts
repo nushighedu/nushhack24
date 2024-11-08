@@ -12,14 +12,20 @@ export const getSystemPrompt = async () => {
 export const getValuePrompt = async (contract: Contract) => {
     const prompt = `A contract has been created with the following details:
     Title: ${contract.title}
+    Government Agencies: ${contract?.agencies || 'None'}
     Description: ${contract.description}
     Requirements: ${contract.requirements.join(', ')}
-    Sustainability Score: ${contract.sustainability}/10
     Expected Duration: ${contract.expectedDuration} months
    
-    Based on the information provided, suggest the true value of this contract. 
-    The value must be in the range 0 to 10000 credits.
-    You should output detailed reasoning for the value you suggest, before deciding on the final value.
+    Based on the information provided, suggest the true value of this contract. The value reflects the benefits that the project brings to the government.
+    Follow the guidelines below:
+    - Feasibility: The project should be realistic and achievable. The requirements, if any, should be clear.
+    - Usefulness: The submission addresses a pertinent problem faced by society. Their submission identifies key problems that have not been previously resolved and seeks to resolve them.  
+    - Sustainability: The project should be sustainable in the long term; it should not be a one-time solution.
+    - Creativity (bonus): The submission is innovative and creative. It offers a unique solution to the problem.
+    
+    The value must be a number in the range 0 to 10000 credits.
+    You should first output detailed reasoning, before deciding on the final value.
     `;
     return prompt;
 }
@@ -90,9 +96,9 @@ export async function getValue(contract: Contract): Promise<OpenAIResponsePartia
 export const getAnalysisPrompt = async (contract: Contract) => {
     const prompt = `A contract has been created with the following details:
     Title: ${contract.title}
+    Government Agencies: ${contract?.agencies || 'None'}
     Description: ${contract.description}
     Requirements: ${contract.requirements.join(', ')}
-    Sustainability Score: ${contract.sustainability}/10
     Expected Duration: ${contract.expectedDuration} months
    
     The user is considering whether to bid on this contract. Provide an analysis of the contract, including the risks and benefits of bidding on this contract.

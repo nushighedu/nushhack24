@@ -27,3 +27,8 @@ export interface Player {
     winner?: string;
     winningBid?: number;
   }
+
+export interface OpenAIResponse1 {
+  value: number;
+  reasoning: string;
+}

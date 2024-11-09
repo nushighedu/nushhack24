@@ -6,10 +6,11 @@ import Link from 'next/link';
 interface MarkdownRendererProps {
     content: string;
     className?: string;
+    overrides?: Record<string, string>;
 }
 
-export default function MarkdownRenderer({ content, className = '' }: MarkdownRendererProps) {
-    return (
+export default function MarkdownRenderer({ content, className = '', overrides = {}}: MarkdownRendererProps) {
+  return (
         <ReactMarkdown
             className={`prose prose-invert max-w-none ${className}`}
             remarkPlugins={[remarkGfm]}
@@ -21,7 +22,7 @@ export default function MarkdownRenderer({ content, className = '' }: MarkdownRe
                     <h3 className="text-xl font-mono text-green-400 mt-6 mb-3">{children}</h3>
                 ),
                 p: ({ children }) => (
-                    <p className="mb-4 text-gray-300">{children}</p>
+                    <p className={`mb-4 ${overrides?.p ?? "text-gray-300"}`}>{children}</p>
                 ),
                 a: ({ href, children }) => (
                     <Link

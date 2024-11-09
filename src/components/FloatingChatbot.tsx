@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ChatSession } from '@/lib/openai';
 import { Message } from '@/lib/types';
 import { MessageCircle, X, Send, Minimize2, Maximize2 } from 'lucide-react';
+import MarkdownRenderer from "@/components/MarkdownRenderer";
 
 const initialQuestions = [
     "How do I create a new contract?",
@@ -120,10 +121,10 @@ const FloatingChatbot = () => {
                                             <div
                                                 className={`inline-block p-3 rounded-lg max-w-[80%] ${msg.role === 'user'
                                                     ? 'bg-blue-600 dark:bg-blue-500 text-white'
-                                                    : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
+                                                    : 'bg-gray-100 dark:bg-gray-700 text-dark dark:text-gray-200'
                                                     }`}
                                             >
-                                                {msg.content}
+                                              <MarkdownRenderer content={msg.content} className="prose prose-invert max-w-none" overrides={{p: "text-black dark:text-gray-300"}} />
                                             </div>
                                         </div>
                                     ))

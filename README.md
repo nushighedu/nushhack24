@@ -13,13 +13,6 @@ https://devpost.com/software/contract-nexus
 ## Overview
 Contract Nexus is a gamified platform where you can create and bid for contracts regarding system modernisation. To start as a Business, simply browse our directory of government agencies to learn about the different systems you can attempt to modernise. Then, create a contract. To start as a Government Agency, browse the different contracts available - and bid for one! You can also view detailed AI analysis on the contract to help you choose. Once the bid is complete, the true value of the contract is revealed!
 
-## Tech Stack
-- Next.js 14 with App Router
-- TypeScript
-- TailwindCSS
-- ESLint
-- Shadcn/UI Components
-
 ## Getting Started
 
 Pre-requisites: Node.js 14 or later, npm, OpenAI API Key
@@ -41,3 +34,15 @@ npm run dev
 ```
 
 5. Open [http://localhost:3000](http://localhost:3000) with your browser to start!
+
+## Tech Stack
+- Next.js 14 with App Router
+- TypeScript
+- TailwindCSS
+- ESLint
+- Shadcn/UI Components
+
+## Work Distribution
+- Jiang Muzhen: Product management, UX, Backend, AI Integration
+- Ahmad Dzuizz Annajib: Product design, Frontend, UI/UX, Backend
+- Tyler Kiong Tai Le: Visual design, Product innovation, Product presentation

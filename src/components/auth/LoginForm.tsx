@@ -28,7 +28,7 @@ export function LoginForm({
     onLogin: (user: User) => void;
 }) {
     const [username, setUsername] = useState('');
-    const [userType, setUserType] = useState<UserType>('government');
+    const [userType, setUserType] = useState<UserType>('business');
     const [step, setStep] = useState<'type' | 'details'>('type');
     const [error, setError] = useState('');
     const [orgDetails, setOrgDetails] = useState<OrgDetails>({

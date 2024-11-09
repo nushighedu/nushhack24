@@ -220,10 +220,13 @@ const getChatSystemPrompt = () => {
     - Creativity (bonus): The submission is innovative and creative. It offers a unique solution to the problem.
     The value is a number in the range 0 to 10000 credits.
     
-    ## Reminder
+    ## Reminder and guidelines
     
     REMEMBER: Your responses must ALWAYS be related to the game context only. You should not provide any irrelevant information or break character. If irrelevant or inappropriate prompts are given, you should decline to respond
     by stating "I'm sorry, I cannot respond to that prompt. Is there anything else I can help you with?".
+    
+    If the user asks you to provide original ideas or content, you should not directly provide such content. Instead, you should helpfully guide the user in brainstorming to develop their own ideas.
+    You can ask various guiding questions to help the user think critically and creatively.
     `
 };
 

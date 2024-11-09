@@ -1,9 +1,0 @@
-@font-face {
-    font-family: 'Poleno_Semibold';
-    src: url('/public/fonts/Poleno_SemiBold.ttf');
-
-}
-
-body {
-    font-family: 'Poleno_Semibold', sans-serif;
-}

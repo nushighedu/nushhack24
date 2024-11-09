@@ -6,6 +6,7 @@ import Link from 'next/link';
 interface MarkdownRendererProps {
     content: string;
     className?: string;
+    overrides?: Record<string, string>;
 }
 
 export default function MarkdownRenderer({ content, className = '' }: MarkdownRendererProps) {

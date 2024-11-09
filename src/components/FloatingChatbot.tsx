@@ -119,7 +119,7 @@ const FloatingChatbot = () => {
                                             <div
                                                 className={`inline-block p-3 rounded-lg ${msg.role === 'user'
                                                     ? 'bg-blue-600 dark:bg-blue-500 text-white'
-                                                    : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
+                                                    : 'bg-gray-100 dark:bg-gray-700 text-dark dark:text-gray-200'
                                                     }`}
                                             >
                                                 <MarkdownRenderer

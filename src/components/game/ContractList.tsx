@@ -19,11 +19,16 @@ export function ContractList({
 }: ContractListProps) {
     const sortedContracts = useMemo(() => {
         if (!Array.isArray(contracts)) return [];
+        const now = new Date();
 
         return [...contracts].sort((a, b) => {
             switch (sortBy) {
-                case 'expiringSoon':
-                    return new Date(a.expirationTime).getTime() - new Date(b.expirationTime).getTime();
+              case 'expiringSoon':
+                  // For expired contracts, sort them by expiration time (smallest, i.e. soonest first)
+                  // For active contracts, sort them by expiration time (largest, i.e. most recent first)
+                  const aExpired = now > new Date(a.expirationTime), bExpired = now > new Date(b.expirationTime);
+                  return aExpired === bExpired ? (new Date(a.expirationTime).getTime() - new Date(b.expirationTime).getTime()) * (aExpired ? -1 : 1)
+                      : aExpired ? 1 : -1;
                 case 'highestBid':
                     const getHighestBid = (c: Contract) =>
                         Math.max(

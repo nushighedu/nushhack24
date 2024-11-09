@@ -174,7 +174,7 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
             <span className="font-medium">{currentBid} credits</span>
           </div>
 
-          {contract.status === 'active' && (
+          {contract.status === 'active' && currentUser?.userType === 'government' && (
             <div className="flex gap-2">
               <Input
                 type="number"

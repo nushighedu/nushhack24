@@ -25,7 +25,7 @@ export const getValuePrompt = async (contract: Contract) => {
     Description: ${contract.description}
     Requirements: ${contract.requirements.join(', ')}
     Expected Duration: ${contract.expectedDuration} months
-    Sustainability Score: ${contract.sustainability}
+    Sustainability Score: ${contract.sustainability}/10
    
     Based on the information provided, suggest the true value of this contract. The value reflects the benefits that the project brings to the government.
     Follow the guidelines below:
@@ -131,7 +131,7 @@ export const getAnalysisPrompt = async (contract: Contract) => {
     Description: ${contract.description}
     Requirements: ${contract.requirements.join(', ')}
     Expected Duration: ${contract.expectedDuration} months
-    Sustainability Score: ${contract.sustainability}
+    Sustainability Score: ${contract.sustainability}/10
    
     The user is considering whether to bid on this contract. Provide an analysis of the contract, including the risks and benefits of bidding on this contract.
     However, the analysis should be balanced and not biased towards either choice. The analysis should be easily understandable by the user. You should explain
@@ -206,6 +206,7 @@ const getChatSystemPrompt = () => {
     You are now in a chat session with the user. You will act as a helpful assistant. The user may ask questions or provide information about the contracts. You will provide responses based on the information provided.
     Remember that the context of the conversation is the Modernisation game, and the location is Singapore. You should provide relevant and accurate information based on this context.
     You may also ask questions to clarify the user's input or to provide more accurate responses. The goal is to assist the user in analysing the contracts and making informed.
+    Your answers should be neither too short nor too long, and should be clear and concise. You should provide relevant details without overwhelming the user with unnecessary information.
     
     The following is part of the format of a contract:
     Title; Description; Government Agencies; Requirements; Expected Duration; Minimum Bid.

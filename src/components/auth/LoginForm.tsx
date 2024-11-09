@@ -45,10 +45,6 @@ export function LoginForm({
             setError('Organization name is required');
             return false;
         }
-        if (!orgDetails.description.trim()) {
-            setError('Description is required');
-            return false;
-        }
         return true;
     };
 

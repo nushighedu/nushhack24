@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,14 +8,17 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import type { Contract, OpenAIResponse, User } from '@/lib/types';
 import { sleep } from "openai/core";
 import MarkdownRenderer from '@/components/MarkdownRenderer';
+import { getOpenAIResponse } from "@/lib/openai";
+import {LocalStore} from "@/lib/store";
 
 interface ContractCardProps {
   contract: Contract;
   currentUser: User;
   onBid: (contractId: string, amount: number) => void;
+  refresh?: () => void;
 }
 
-export function ContractCard({ contract, currentUser, onBid }: ContractCardProps) {
+export function ContractCard({ contract, currentUser, onBid, refresh }: ContractCardProps) {
   const [loading, setLoading] = useState(false);
   const [bidAmount, setBidAmount] = useState<number>(0);
   const [aiResponse, setAiResponse] = useState<OpenAIResponse | null>(null);
@@ -40,9 +43,22 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
   const handleAnalysis = async () => {
     if (!aiResponse || !aiResponse.analysis) {
       setLoading(true);
-      await sleep(Math.random() * 1000 + 500);
-      // @ts-ignore - Assuming AI_info exists on contract
-      setAiResponse(contract?.AI_info);
+
+      if (contract?.AI_info?.analysis) {
+        await sleep(Math.random() * 1000 + 500);
+        setAiResponse(contract?.AI_info);
+      }
+      else {
+        // get analysis now
+        const response = await getOpenAIResponse(contract);
+        setAiResponse(response);
+
+        // update contract with AI info
+        const newContract = { ...contract, AI_info: response, trueValue: response.value };
+        LocalStore.updateContract(newContract.id, newContract as Contract);
+        if (refresh) refresh();
+      }
+
       setLoading(false);
     }
   };
@@ -50,6 +66,11 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
   const isCompleted = contract.status === 'completed';
   const isExpired = contract.status === 'expired';
   const currentBid = getCurrentBid();
+
+  const [profit, setProfit] = useState<number>(0);
+  useEffect(() => {
+    setProfit(contract.trueValue - contract.winningBid!);
+  }, [contract.trueValue, contract.winningBid]);
 
   return (
     <Card className={`
@@ -197,26 +218,26 @@ export function ContractCard({ contract, currentUser, onBid }: ContractCardProps
           )}
 
           {isCompleted && (
-            <div className="bg-green-500/10 rounded-lg p-3 mt-2">
-              <div className="flex items-center text-green-400 mb-1">
-                <Award className="w-4 h-4 mr-1" />
-                <span className="font-medium">Winner: {contract.winner}</span>
-              </div>
-              <p className="text-sm">
-                Winning Bid: {contract.winningBid} credits
-              </p>
-              {contract.winner === currentUser.username && (
-                <p className="text-sm text-green-400 mt-1">
-                  Profit: {contract.trueValue - contract.winningBid!} credits
+              <div className={`${profit > 0 ? 'bg-green-500/10' : 'bg-red-500/10'} rounded-lg p-3 mt-2`}>
+                <div className={`flex items-center ${profit > 0 ? 'text-green-400' : 'text-red-400'} mb-1`}>
+                  <Award className="w-4 h-4 mr-1"/>
+                  <span className="font-medium">Winner: {contract.winner}</span>
+                </div>
+                <p className="text-sm">
+                  Winning Bid: {contract.winningBid} credits
                 </p>
-              )}
-            </div>
+                {contract.winner === currentUser.username && (
+                    <p className={`text-sm ${profit >= 0 ? 'text-green-400' : 'text-red-400'} mt-1`}>
+                      {profit > 0 ? `Profit: ${profit} credits` : `Loss: ${-profit} credits`}
+                    </p>
+                )}
+              </div>
           )}
 
           {isExpired && (
-            <div className="bg-red-500/10 text-red-400 rounded-lg p-3 mt-2 text-sm">
-              Contract expired with no valid bids
-            </div>
+              <div className="bg-red-500/10 text-red-400 rounded-lg p-3 mt-2 text-sm">
+                Contract expired with no valid bids
+              </div>
           )}
         </div>
       </CardContent>

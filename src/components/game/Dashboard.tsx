@@ -317,6 +317,7 @@ export function Dashboard({ user, onLogout }: { user: User; onLogout: () => void
                         contracts={filteredAndSortedContracts}
                         currentUser={user}
                         onBid={handleBid}
+                        refresh={loadContracts}
                     />
                 </div>
             </div>

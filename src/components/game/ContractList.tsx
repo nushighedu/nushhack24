@@ -7,13 +7,15 @@ interface ContractListProps {
     currentUser: User;
     onBid: (contractId: string, amount: number) => void;
     sortBy?: 'expiringSoon' | 'highestBid' | 'mostBids' | 'newest';
+    refresh?: () => void;
 }
 
 export function ContractList({
     contracts,
     currentUser,
     onBid,
-    sortBy = 'expiringSoon'
+    sortBy = 'expiringSoon',
+    refresh,
 }: ContractListProps) {
     const sortedContracts = useMemo(() => {
         if (!Array.isArray(contracts)) return [];
@@ -48,6 +50,7 @@ export function ContractList({
                         contract={contract}
                         currentUser={currentUser}
                         onBid={onBid}
+                        refresh={refresh}
                     />
                 ))}
             </div>

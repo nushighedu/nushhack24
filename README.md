@@ -5,11 +5,7 @@ the possibilities are endless!
 
 ## Team Members
 
-Jiang Muzhen, Ahmad Dzuizz Annajib, Tyler Kiong Tai Le
-
-from NUS High School
-
-https://devpost.com/software/contract-nexus
+Jiang Muzhen, Ahmad Dzuizz Annajib, Tyler Kiong Tai Le (NUS High School, Singapore)
 
 ## Overview
 
@@ -18,6 +14,10 @@ start as a Business, simply browse our directory of government agencies to learn
 attempt to modernise. Then, create a contract. To start as a Government Agency, browse the different contracts
 available - and bid for one! You can also view detailed AI analysis on the contract to help you choose. Once the bid is
 complete, the true value of the contract is revealed!
+
+Project: https://devpost.com/software/contract-nexus
+
+Demo: https://www.youtube.com/watch?v=EnvrTWdHNT8
 
 ## Getting Started
 

@@ -7,8 +7,8 @@ import MarkdownRenderer from '@/components/MarkdownRenderer';
 
 const initialQuestions = [
     "How do I create a new contract?",
-    "What makes a good modernisation proposal?",
-    "How is the contract value calculated?"
+    "What makes a good contract proposal?",
+    "Can you give me ideas for my contract proposal?",
 ];
 
 const FloatingChatbot = () => {

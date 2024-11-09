@@ -149,13 +149,13 @@ export function ContractForm({ user, onSubmit, onCancel }: ContractFormProps) {
             <Slider
                 type="number"
                 required
-                min={1}
+                min={0.5}
                 max={30}
-                step={1}
+                step={0.5}
                 value={[contract.bidDuration || 5]}
                 onValueChange={([value]) => setContract({
                   ...contract,
-                  bidDuration: value
+                  bidDuration: value === 0.5 ? 0.5 : Math.round(value)
                 })}
                 className="w-full relative flex items-center select-none touch-none h-5"
             />

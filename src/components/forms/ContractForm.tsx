@@ -102,64 +102,83 @@ export function ContractForm({ user, onSubmit, onCancel }: ContractFormProps) {
         <div>
           <label className="block text-sm font-medium mb-1">Expected Duration (months)</label>
           <Input
-            type="number"
-            required
-            min={1}
-            max={60}
-            value={contract.expectedDuration || ''}
-            onChange={(e) => setContract({
-              ...contract,
-              expectedDuration: parseInt(e.target.value)
-            })}
+              type="number"
+              required
+              min={1}
+              max={60}
+              value={contract.expectedDuration || ''}
+              onChange={(e) => setContract({
+                ...contract,
+                expectedDuration: parseInt(e.target.value)
+              })}
           />
         </div>
 
         <div>
           <label className="block text-sm font-medium mb-1">Minimum Bid (credits)</label>
           <Input
-            type="number"
-            required
-            min={500}
-            max={5000}
-            step={100}
-            value={contract.minimumBid || ''}
-            onChange={(e) => setContract({
-              ...contract,
-              minimumBid: parseInt(e.target.value)
-            })}
+              type="number"
+              required
+              min={500}
+              max={5000}
+              step={100}
+              value={contract.minimumBid || ''}
+              onChange={(e) => setContract({
+                ...contract,
+                minimumBid: parseInt(e.target.value)
+              })}
           />
         </div>
       </div>
 
       <div>
         <label className="block text-sm font-medium mb-1">
+          Bid Duration (minutes): {contract.bidDuration || 5}
+        </label>
+        <div className="relative">
+          <Slider
+              type="number"
+              required
+              min={1}
+              max={30}
+              step={1}
+              value={[contract.bidDuration || 5]}
+              onValueChange={([value]) => setContract({
+                ...contract,
+                bidDuration: value
+              })}
+              className="w-full relative flex items-center select-none touch-none h-5"
+          />
+        </div>
+
+        <label className="block text-sm font-medium mb-1">
           Sustainability Score (1-10): {contract.sustainability}
         </label>
         <div className="relative">
           <Slider
-            min={1}
-            max={10}
-            step={1}
-            value={[contract.sustainability || 5]}
-            onValueChange={([value]) => setContract({
-              ...contract,
-              sustainability: value
-            })}
-            className="w-full relative flex items-center select-none touch-none h-5"
+              min={1}
+              max={10}
+              step={1}
+              value={[contract.sustainability || 5]}
+              onValueChange={([value]) => setContract({
+                ...contract,
+                sustainability: value
+              })}
+              className="w-full relative flex items-center select-none touch-none h-5"
           />
         </div>
       </div>
 
       <div className="flex justify-end space-x-2">
         {onCancel && (
-          <Button type="button" variant="outline" onClick={onCancel}>
-            Cancel
-          </Button>
+            <Button type="button" variant="outline" onClick={onCancel}>
+              Cancel
+            </Button>
         )}
         <Button
-          className='text-white dark:text-gray-700'
-          type="submit"
-          disabled={!isFormValid()}
+            className='text-white dark:text-gray-700'
+            type="submit"
+            disabled={!isFormValid()}
         >
           Create Contract
         </Button>

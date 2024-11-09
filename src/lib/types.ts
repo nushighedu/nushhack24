@@ -78,18 +78,20 @@ export interface Contract {
   requirements: string[];
   sustainability: number;
   expectedDuration: number;
+  bidDuration: number; // in minutes
+
   trueValue: number;
   minimumBid: number;
   expirationTime: string; // ISO string
-  bids: Record<string, Bid>; // userId -> Bid
-  winner?: string;
-  winningBid?: number;
+
   AI_info: OpenAIResponse;
+  aiAnalysis?: ContractAnalysis;
+
+  // maybe-unused
   sustainabilityRating?: number; // Added post-completion
   completionStatus?: 'completed' | 'delayed' | 'failed';
   governmentRating?: number; // Business rates government's work
   contractorRating?: number; // Government rates business's contract
-  aiAnalysis?: ContractAnalysis
 }
 
 export interface OpenAIResponsePartial {

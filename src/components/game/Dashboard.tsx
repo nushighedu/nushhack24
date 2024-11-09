@@ -84,7 +84,7 @@ export function Dashboard({ user, onLogout }: { user: User; onLogout: () => void
             status: 'active',
             AI_info: { analysis: '', reasoning: '', value: 0 },
             trueValue: 0,
-            expirationTime: new Date(Date.now() + 5 * 60000).toISOString(),
+            expirationTime: new Date(Date.now() + (contract.bidDuration ?? 5) * 60000).toISOString(),
             bids: {},
             createdByBusiness: user.username,
             sustainabilityRating: undefined,

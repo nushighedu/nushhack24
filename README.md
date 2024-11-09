@@ -25,7 +25,7 @@ A gamified platform that revolutionizes system modernization contracting by conn
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/contract-nexus.git
+git clone https://github.com/nushighedu/nushhack24.git
 cd contract-nexus
 ```
 

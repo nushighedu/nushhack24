@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { ChatSession } from '@/lib/openai';
-import { Message } from '@/lib/types';
 import { MessageCircle, X, Send, Minimize2, Maximize2 } from 'lucide-react';
+import { ChatSession } from '@/lib/openai';
+import MarkdownRenderer from '@/components/MarkdownRenderer';
 
 const initialQuestions = [
     "How do I create a new contract?",
@@ -114,16 +114,18 @@ const FloatingChatbot = () => {
                                     messages.map((msg, index) => (
                                         <div
                                             key={index}
-                                            className={`mb-4 ${msg.role === 'user' ? 'text-right' : 'text-left'
-                                                }`}
+                                            className={`mb-4 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}
                                         >
                                             <div
-                                                className={`inline-block p-3 rounded-lg max-w-[80%] ${msg.role === 'user'
+                                                className={`inline-block p-3 rounded-lg ${msg.role === 'user'
                                                     ? 'bg-blue-600 dark:bg-blue-500 text-white'
                                                     : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
                                                     }`}
                                             >
-                                                {msg.content}
+                                                <MarkdownRenderer
+                                                    content={msg.content}
+                                                    className="max-w-[240px]"  // Adjust this value as needed
+                                                />
                                             </div>
                                         </div>
                                     ))

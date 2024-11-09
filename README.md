@@ -34,10 +34,9 @@ cd nushhack24
 npm install --force
 ```
 
-3. Set up environment variables
+3. Set up environment variables (OpenAI API Key)
 ```bash
-# Create a .env.local file and add your OpenAI API key
-echo "NEXT_PUBLIC_OPENAI_API_KEY=your-api-key" > .env.local
+export NEXT_PUBLIC_OPENAI_API_KEY="your-api-key"
 ```
 
 4. Start the development server

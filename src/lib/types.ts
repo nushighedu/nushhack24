@@ -76,6 +76,7 @@ export interface Contract {
   trueValue: number;
   minimumBid: number;
   expirationTime: string; // ISO string
+  credited: boolean;
 
   AI_info: OpenAIResponse;
 

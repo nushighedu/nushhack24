@@ -60,7 +60,16 @@ export function Dashboard({ user, onLogout }: { user: User; onLogout: () => void
                             winner.contractsWon = [];
                         }
                         winner.contractsWon.push(contract.id);
+
+                        // award credits
+                        if (contract.trueValue && !contract?.credited) {
+                            winner.credits += contract.trueValue;
+                            contract.credited = true;
+                        }
+
                         LocalStore.setUser(winner.username, winner);
+                        LocalStore.updateContract(id, contract as Contract);
+                        loadContracts();
                     }
                 } else {
                     contract.status = 'expired';
@@ -86,6 +95,7 @@ export function Dashboard({ user, onLogout }: { user: User; onLogout: () => void
             trueValue: 0,
             expirationTime: new Date(Date.now() + (contract.bidDuration ?? 5) * 60000).toISOString(),
             bids: {},
+            credited: false,
             createdByBusiness: user.username,
             sustainabilityRating: undefined,
             completionStatus: undefined,

@@ -41,10 +41,6 @@ export function LoginForm({
             setError('Username is required');
             return false;
         }
-        if (!orgDetails.name.trim()) {
-            setError('Organization name is required');
-            return false;
-        }
         return true;
     };
 
@@ -52,6 +48,10 @@ export function LoginForm({
         e.preventDefault();
 
         if (!validateForm()) return;
+
+        if (!orgDetails.name.trim()) {
+            orgDetails.name = username;
+        }
 
         let user = LocalStore.getUser(username);
 

@@ -1,4 +1,4 @@
-import type { Contract, ContractAnalysis, User } from './types';
+import type { Contract, User } from './types';
 
 export class LocalStore {
     private static USERS_KEY = 'auction_users';
@@ -46,37 +46,8 @@ export class LocalStore {
     }
 
     static async addContract(contract: Contract) {
-        try {
-            // First, try to get the AI analysis
-            const response = await fetch('/api/analyze', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(contract),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                if (data.success) {
-                    contract.aiAnalysis = {
-                        ...data.data,
-                        timestamp: new Date().toISOString()
-                    };
-                }
-            }
-        } catch (error) {
-            console.error('Failed to get AI analysis:', error);
-        }
-
-        // Continue with storing the contract regardless of analysis success
         const contracts = this.getContracts();
         contracts[contract.id] = contract;
         localStorage.setItem(this.CONTRACTS_KEY, JSON.stringify(contracts));
-    }
-
-    static getContractAnalysis(contractId: string): ContractAnalysis | undefined {
-        const contracts = this.getContracts();
-        return contracts[contractId]?.aiAnalysis;
     }
 }

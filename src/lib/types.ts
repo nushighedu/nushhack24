@@ -56,13 +56,6 @@ export interface Bid {
   timestamp: string;
 }
 
-export interface ContractAnalysis {
-  value: number;
-  reasoning: string;
-  analysis: string;
-  timestamp: string;
-}
-
 export interface Contract {
   status: 'active' | 'expired' | 'completed';
   bids: Record<string, Bid>;  // userId -> Bid
@@ -85,7 +78,6 @@ export interface Contract {
   expirationTime: string; // ISO string
 
   AI_info: OpenAIResponse;
-  aiAnalysis?: ContractAnalysis;
 
   // maybe-unused
   sustainabilityRating?: number; // Added post-completion
